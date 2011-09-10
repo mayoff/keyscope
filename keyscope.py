@@ -6,9 +6,10 @@ from twisted.internet import cfreactor
 cfreactor.install()
 
 from twisted.internet import reactor, task
-from twisted.web import server
-from twisted.web.server import Site
+from twisted.web import server, static
 from twisted.web.resource import Resource
+import os.path
+import sys
 import time
 
 class LongPollPage(Resource):
@@ -35,8 +36,9 @@ class LongPollPage(Resource):
         if not self.__requests:
             reactor.stop()
 
-resource = LongPollPage()
-factory = Site(resource)
+root = static.File(os.path.join(os.path.dirname(sys.argv[0]), 'static'))
+root.putChild('events', LongPollPage());
+factory = server.Site(root)
 reactor.listenTCP(interface='127.0.0.1', port=8000, factory=factory)
 reactor.run()
 

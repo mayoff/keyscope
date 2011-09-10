@@ -1,3 +1,26 @@
 <!doctype html>
+<meta charset=utf-8>
 
 Hello, world!
+<div id='log'>
+</div>
+<script>
+    function log(s) {
+        document.getElementById('log').innerHTML += s;
+    }
+    function registerHandler(object, eventName, handler) {
+        object['on' + eventName] = handler;
+        // object.addEventListener(eventName, handler);
+    }
+    var source = new EventSource('/events');
+    registerHandler(source, 'open', function (event) {
+        log('open<br>');
+    });
+    registerHandler(source, 'message', function (event) {
+        log('message ' + event.data + '<br>');
+    });
+    registerHandler(source, 'error', function (event) {
+        log('error<br>');
+        console.log(event, source.readyState);
+    });
+</script>

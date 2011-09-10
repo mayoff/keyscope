@@ -12,5 +12,6 @@ root = static.File(os.path.join(os.path.dirname(sys.argv[0]), 'static'))
 root.putChild('events', EventsPage());
 factory = server.Site(root)
 reactor.listenTCP(interface='127.0.0.1', port=8000, factory=factory)
+print 'starting...'
 reactor.run()
 

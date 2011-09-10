@@ -2,13 +2,16 @@
 
 # http://zenmachine.wordpress.com/2009/09/19/twisted-and-comet-comet-in-60-seconds/
 
-from twisted.internet import reactor, task, cfreactor
-from twisted.web.server import Site
+from twisted.internet import cfreactor
+cfreactor.install()
+
+from twisted.internet import reactor, task
 from twisted.web import server
+from twisted.web.server import Site
 from twisted.web.resource import Resource
 import time
 
-class ClockPage(Resource):
+class LongPollPage(Resource):
     isLeaf = True
 
     def __init__(self):
@@ -26,8 +29,8 @@ class ClockPage(Resource):
         for p in self.presence:
             p.write('<b>%s</b>' % (time.ctime(),))
 
-resource = ClockPage()
+resource = LongPollPage()
 factory = Site(resource)
-reactor.listenTCP(8000, factory)
+reactor.listenTCP(interface='127.0.0.1', port=8000, factory=factory)
 reactor.run()
 

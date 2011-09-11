@@ -63,6 +63,8 @@ class EventsPage(Resource):
     ):
         message = { 'key': keynameOfEvent(event) }
         if type == kCGEventKeyDown:
+            if CGEventGetIntegerValueField(event, kCGKeyboardEventAutorepeat):
+                return
             message['action'] = 'down'
         elif type == kCGEventKeyUp:
             message['action'] = 'up'

@@ -1,4 +1,9 @@
 
+@font-face {
+    font-family: keycaps;
+    src: url(vaground.ttf);
+}
+
 * {
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -27,21 +32,74 @@
     background-color: white;
 
     display: -moz-box;
+    -moz-box-align: center;
+    -moz-box-pack: center;
 
     display: -webkit-box;
     -webkit-box-align: center;
     -webkit-box-pack: center;
+
+    font: 12px/15px Verdana, sans-serif;
+    text-align: center;
+}
+
+.keylabelSmaller {
+    font-size: 80%;
+}
+
+.keylabelSmallest {
+    font-size: 70%;
+}
+
+.keylabelFKey {
+    font-size: 70%;
+    width: 100%;
+    height: 100%;
+    padding: 2px;
+
+    display: -moz-box;
+    -moz-box-align: end;
+    -moz-box-pack: end;
+
+    display: -webkit-box;
+    -webkit-box-align: end;
+    -webkit-box-pack: end;
+}
+
+.keylabelLR {
+    font-size: 80%;
+    width: 100%;
+    height: 100%;
+    padding-right: 3px;
+
+    display: -moz-box;
+    -moz-box-align: end;
+    -moz-box-pack: end;
+
+    display: -webkit-box;
+    -webkit-box-align: end;
+    -webkit-box-pack: end;
+}
+
+.keylabelLL {
+    font-size: 80%;
+    width: 100%;
+    height: 100%;
+    padding-left: 3px;
+
+    display: -moz-box;
+    -moz-box-align: end;
+    -moz-box-pack: start;
+
+    display: -webkit-box;
+    -webkit-box-align: end;
+    -webkit-box-pack: start;
 }
 
 .keyup {
     -webkit-box-shadow: 0px 1px 1px #777;
     -moz-box-shadow: 0px 1px 1px #777;
     box-shadow: 0px 1px 1px #777;
-}
-
-.keylabel {
-    font: 8px/10px 'Lucida Grande', Helvetica, Arial, sans-serif;
-    text-align: center;
 }
 
 .key.keydown {

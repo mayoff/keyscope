@@ -15,7 +15,7 @@
         var format = require('string').format;
         var keyboard = require('keyboards/apple').keyboard();
         keyboard.keys.forEach(function (key) {
-            html += format('<div class="key keyup" id="key_{name}" style="left:{x}mm;top:{y}mm;width:{width}mm;height:{height}mm"><div class="keylabel">{label}</div></div>\n', key);
+            html += format('<div class="key keyup" id="key_{name}" style="left:{x}mm;top:{y}mm;width:{width}mm;height:{height}mm">{label}</div>\n', key);
         });
         var keyboard$ = $('#keyboard');
         keyboard$.width(keyboard.width + 'mm');

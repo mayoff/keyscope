@@ -94,50 +94,109 @@ module.define('keyboards/maker', function (require, exports) {
         return this;
     };
 
+    function s(s) {
+        return '<div class="keylabelSmaller">' + s + '</div>';
+    }
+
+
+
+    function ss(s) {
+        return '<div class="keylabelSmallest">' + s + '</div>';
+    }
+
+    function f(s) {
+        return '<div class="keylabelFKey">' + s + '</div>';
+    }
+
+    function escape(s) {
+        return s === '<' ? '&lt;'
+            : s === '>' ? '&gt;'
+            : s === '&' ? '&amp;'
+            : s;
+    }
+
+    function p(s) {
+        return escape(s[0]) + '<br>' + escape(s[1]);
+    }
+
+    function ll(s) {
+        return '<div class="keylabelLL">' + s + '</div>';
+    }
+
+    function lr(s) {
+        return '<div class="keylabelLR">' + s + '</div>';
+    }
+
     labels.qwerty = {
-        Escape: 'esc',
+        Escape: s('esc'),
         Eject: '\u23cf',
-        Grave: '`',
-        Function: 'fn',
-        PageUp: 'page<br>up',
-        KeypadClear: 'clear',
+        Grave: p('~`'),
+        1: p('!1'),
+        2: p('@2'),
+        3: p('#3'),
+        4: p('$4'),
+        5: p('%5'),
+        6: p('^6'),
+        7: p('&7'),
+        8: p('*8'),
+        9: p('(9'),
+        0: p(')0'),
+        Minus: p('_-'),
+        Equal: p('+='),
+        Delete: lr('delete'),
+        Function: s('fn'),
+        Home: s('home'),
+        PageUp: s('page<br>up'),
+        KeypadClear: s('clear'),
         KeypadEquals: '=',
         KeypadDivide: '/',
         KeypadMultiply: '*',
-        LeftBracket: '[',
-        RightBracket: ']',
-        Backslash: '\\',
-        ForwardDelete: 'delete\u2326',
-        PageDown: 'page<br>down',
+        Tab: ll('tab'),
+        LeftBracket: p('{['),
+        RightBracket: p('}]'),
+        Backslash: p('|\\'),
+        ForwardDelete: ss('delete\u2326'),
+        End: s('end'),
+        PageDown: s('page<br>down'),
         Keypad7: '7',
         Keypad8: '8',
         Keypad9: '9',
         KeypadMinus: '-',
-        Semicolon: ';',
-        Quote: "'",
+        CapsLock: ll('caps lock'),
+        Semicolon: p(':;'),
+        Quote: p('"\''),
+        Return: lr('return'),
         Keypad4: '4',
         Keypad5: '5',
         Keypad6: '6',
         KeypadPlus: '+',
-        Comma: ',',
-        Period: '.',
-        Slash: '/',
-        RightShift: 'shift',
-        UpArrow: '\u25b2',
+        Shift: ll('shift'),
+        Comma: p('<,'),
+        Period: p('>.'),
+        Slash: p('?/'),
+        RightShift: lr('shift'),
+        UpArrow: s('\u25b2'),
         Keypad1: '1',
         Keypad2: '2',
         Keypad3: '3',
-        KeypadEnter: 'enter',
+        KeypadEnter: lr('enter'),
+        Control: ll('control'),
+        Option: ll('option'),
+        Command: ll('command'),
         Space: ' ',
-        RightCommand: '\u2318 command',
-        RightOption: 'option',
-        RightControl: 'control',
-        LeftArrow: '\u25c0',
-        DownArrow: '\u25bc',
-        RightArrow: '\u25b6',
+        RightCommand: lr('command'),
+        RightOption: lr('option'),
+        RightControl: lr('control'),
+        LeftArrow: s('\u25c0'),
+        DownArrow: s('\u25bc'),
+        RightArrow: s('\u25b6'),
         Keypad0: '0',
         KeypadDecimal: '.'
     };
+
+    for (var i = 1; i < 20; ++i) {
+        labels.qwerty['F'+i] = f('F'+i);
+    }
 
     labels.dvorak = $.extend({}, labels.qwerty);
 

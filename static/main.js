@@ -67,7 +67,7 @@
             delete keyPressCounts[keysPressed[0]];
             keysPressed.shift();
         }
-        var kl = keysPressed.length - 1;
+        var kl = Math.max(keysPressed.length - 1, 1);
         var gl = gradientSamples.length - 1;
         keysPressed.forEach(function (key, i) {
             var color = gradientSamples[Math.floor(gl * i / kl)];
@@ -97,7 +97,7 @@
     function initGradientSamples() {
         var gradient = [
             // x   hue  sat  lit
-            [ .00, 210, 100, 100 ],
+            [ .00, 210, 100,  95 ],
             [ .20, 210, 100,  75 ],
             [ 1.0,   0, 100,  75 ],
             [ 2.0,   0, 100,  75 ]

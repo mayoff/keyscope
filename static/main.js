@@ -86,10 +86,9 @@
             // x   hue  sat  lit
             [ .00, 210, 100, 100 ],
             [ .20, 210, 100,  75 ],
-            [ 1.0,   0, 100,  75 ]
+            [ 1.0,   0, 100,  75 ],
+            [ 2.0,   0, 100,  75 ]
         ]
-
-        gradient.push(gradient[gradient.length - 1]);
 
         var gi = 0; // last index of gradient where gradient[gi][0] <= i;
         var startRow = gradient[gi];

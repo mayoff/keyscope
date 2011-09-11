@@ -3,20 +3,24 @@
 (function () {
 
     var require = module.require;
+    var u = require('utilities');
     var keys$ = {};
 
     var gradientSamples = [];
+    var keyPressCounts = {};
+    var keysPressed = [];
 
     function main() {
         initGradientSamples();
         initKeyboardView();
+        initKeyPressCounts();
         var sniffer = new EventSource('/events');
         sniffer['onmessage'] = onSnifferMessage;
     }
 
     function initKeyboardView() {
         var html = '';
-        var format = require('string').format;
+        var format = require('utilities').format;
         var keyboard = require('keyboards/apple').keyboard();
         keyboard.keys.forEach(function (key) {
             html += format('<div class="key keyup" id="key_{name}" style="left:{x}mm;top:{y}mm;width:{width}mm;height:{height}mm">{label}</div>\n', key);
@@ -46,9 +50,6 @@
         }
     }
 
-    var keyPressCounts = {};
-    var keysPressed = [];
-
     function countKeypress(key) {
         if (!keyPressCounts.hasOwnProperty(key)) {
             keysPressed.push(key);
@@ -56,11 +57,29 @@
         }
         else ++keyPressCounts[key];
 
+        onKeyPressCountsUpdated();
+    }
+
+    function onKeyPressCountsUpdated() {
         keysPressed.sort(function (a, b) { return keyPressCounts[a] - keyPressCounts[b]; });
         var kl = keysPressed.length - 1;
         var gl = gradientSamples.length - 1;
         for (var i = 0; i <= kl; ++i)
             keys$[keysPressed[i]].css('background-color', gradientSamples[Math.floor(gl * i / kl)]);
+
+        saveKeyPressCounts();
+    }
+
+    function initKeyPressCounts() {
+        if (!localStorage.KeyScope_keyPressCounts)
+            return;
+        keyPressCounts = JSON.parse(localStorage.KeyScope_keyPressCounts);
+        keysPressed = u.keys(keyPressCounts);
+        onKeyPressCountsUpdated();
+    }
+
+    function saveKeyPressCounts() {
+        localStorage.KeyScope_keyPressCounts = JSON.stringify(keyPressCounts);
     }
 
     function initGradientSamples() {

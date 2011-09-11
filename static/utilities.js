@@ -1,6 +1,16 @@
 
 
-module.define('string', function (require, exports) {
+module.define('utilities', function (require, exports) {
+
+    exports.keys = Object.keys || function (object) {
+        var hasOwnProperty = Object.prototype.hasOwnProperty;
+        var keys = [];
+        for (var k in object) {
+            if (hasOwnProperty.call(object, k))
+                keys.push(k);
+        }
+        return keys;
+    };
 
     /**
         ## format

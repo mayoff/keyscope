@@ -14,6 +14,7 @@
         initGradientSamples();
         initKeyboardView();
         initKeyPressCounts();
+        $('#resetButton').click(resetKeyPressCounts);
         var sniffer = new EventSource('/events');
         sniffer['onmessage'] = onSnifferMessage;
     }
@@ -61,10 +62,17 @@
 
     function onKeyPressCountsUpdated() {
         keysPressed.sort(function (a, b) { return keyPressCounts[a] - keyPressCounts[b]; });
+        while (keysPressed.length && keyPressCounts[keysPressed[0]] === 0) {
+            keys$[keysPressed[0]][0].style.removeProperty('background-color');
+            delete keyPressCounts[keysPressed[0]];
+            keysPressed.shift();
+        }
         var kl = keysPressed.length - 1;
         var gl = gradientSamples.length - 1;
-        for (var i = 0; i <= kl; ++i)
-            keys$[keysPressed[i]].css('background-color', gradientSamples[Math.floor(gl * i / kl)]);
+        keysPressed.forEach(function (key, i) {
+            var color = gradientSamples[Math.floor(gl * i / kl)];
+            keys$[keysPressed[i]].css('background-color', color);
+        });
 
         saveKeyPressCounts();
     }
@@ -74,6 +82,11 @@
             return;
         keyPressCounts = JSON.parse(localStorage.KeyScope_keyPressCounts);
         keysPressed = u.keys(keyPressCounts);
+        onKeyPressCountsUpdated();
+    }
+
+    function resetKeyPressCounts() {
+        keysPressed.forEach(function (key) { keyPressCounts[key] = 0; });
         onKeyPressCountsUpdated();
     }
 

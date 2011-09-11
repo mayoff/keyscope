@@ -69,6 +69,9 @@ class EventsPage(Resource):
         elif type == kCGEventFlagsChanged:
             flags = CGEventGetFlags(event)
             mask = eventFlagMaskForKeyname.get(message['key'])
+            if not mask:
+                # This happens after command-tab
+                return
             message['action'] = 'down' if (flags & mask) else 'up'
         else:
             return

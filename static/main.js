@@ -5,16 +5,10 @@
     var require = module.require;
     var keys$ = {};
 
-    var heatmapGradient = [
-        [ 0, 0, 0, 255, 0 ],
-        [ .45, 0, 0, 255, .7 ],
-        [ .55, 0, 255, 255, .7 ],
-        [ .65, 0, 255, 0, .7 ],
-        [ .95, 255, 255, 0, .7 ],
-        [ 1.0, 255, 0, 0, .7 ]
-    ];
+    var gradientSamples = [];
 
     function main() {
+        initGradientSamples();
         initKeyboardView();
         var sniffer = new EventSource('/events');
         sniffer['onmessage'] = onSnifferMessage;
@@ -52,48 +46,54 @@
         }
     }
 
-    var maxKeyPressCount = 0;
     var keyPressCounts = {};
+    var keysPressed = [];
 
     function countKeypress(key) {
-        var count = 1 + (keyPressCounts[key] || 0);
-        keyPressCounts[key] = count;
-        if (count > maxKeyPressCount) {
-            maxKeyPressCount = count;
-            adjustAllKeyColors();
-        } else {
-            adjustKeyColor(key);
+        if (!keyPressCounts.hasOwnProperty(key)) {
+            keysPressed.push(key);
+            keyPressCounts[key] = 1;
         }
+        else ++keyPressCounts[key];
+
+        keysPressed.sort(function (a, b) { return keyPressCounts[a] - keyPressCounts[b]; });
+        var kl = keysPressed.length - 1;
+        var gl = gradientSamples.length - 1;
+        for (var i = 0; i <= kl; ++i)
+            keys$[keysPressed[i]].css('background-color', gradientSamples[Math.floor(gl * i / kl)]);
     }
 
-    function adjustAllKeyColors() {
-        for (key in keyPressCounts) {
-            if (keyPressCounts.hasOwnProperty(key))
-                adjustKeyColor(key);
-        }
-    }
+    function initGradientSamples() {
+        var gradient = [
+            [ 0, 0, 0, 255, 0 ],
+            [ .39, 0, 0, 255, .5 ],
+            [ .59, 0, 192, 192, .5 ],
+            [ .79, 0, 255, 0, .5 ],
+            [ .99, 192, 192, 0, .5 ],
+            [ 1.0, 255, 0, 0, .5 ],
+            [ 2.0, 255, 0, 0, .5 ]
+        ];
 
-    function adjustKeyColor(key) {
-        keys$[key].css('background-color', sampleGradient(heatmapGradient, keyPressCounts[key] / maxKeyPressCount));
-    }
+        var gi = 0; // last index of gradient where gradient[gi][0] <= i;
+        var startRow = gradient[gi];
+        var endRow = gradient[gi+1];
 
-    function sampleGradient(gradient, x) {
-        for (var i = gradient.length; i--; ) {
-            if (gradient[i][0] <= x)
-                break;
-        }
+        for (var i = 0; i <= 1; i += 1/256) {
+            if (endRow[0] <= i) {
+                ++gi;
+                startRow = endRow;
+                endRow = gradient[gi];
+            }
 
-        var startRow = gradient[i] || gradient[0];
-        var endRow = gradient[i+1] || gradient[gradient.length - 1];
-        var divisor = endRow[0] - startRow[0];
-        x = (divisor === 0) ? 0 : (x - startRow[0]) / divisor;
-        var x1 = 1 - x;
-        var c = [];
-        for (i = 1; i < 4; ++i) {
-            c.push(Math.round(x1 * startRow[i] + x * endRow[i]));
+            var x = (i - startRow[0]) / (endRow[0] - startRow[0]);
+            var x1 = 1 - x;
+            var c = [];
+            for (var j = 1; j < 4; ++j) {
+                c.push(Math.round(x1 * startRow[j] + x * endRow[j]));
+            }
+            c.push(x1 * startRow[4] + x * endRow[4]);
+            gradientSamples.push('rgba(' + c.join(',') + ')');
         }
-        c.push(x1 * startRow[4] + x * endRow[4]);
-        return 'rgba(' + c.join(',') + ')';
     }
 
     $(document).ready(main);

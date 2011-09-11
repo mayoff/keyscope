@@ -15,3 +15,7 @@
     text-align: center;
 }
 
+.key.keydown {
+    background-color: red;
+}
+

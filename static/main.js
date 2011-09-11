@@ -24,7 +24,15 @@
     }
 
     function onSnifferMessage(event) {
-        console.log(event);
+        var message = JSON.parse(event.data);
+        var key$ = $('#key_' + message.key);
+        if (message.action === 'up') {
+            key$.removeClass('keydown');
+            key$.addClass('keyup');
+        } else {
+            key$.removeClass('keyup');
+            key$.addClass('keydown');
+        }
     }
 
     $(document).ready(main);

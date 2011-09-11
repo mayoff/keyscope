@@ -4,8 +4,8 @@ module.define('keyboards/apple', function (require, exports) {
 
     var KeyboardMaker = require('./maker').KeyboardMaker;
 
-    exports.keyboard = function () {
-        var maker = new KeyboardMaker();
+    exports.keyboard = function (props) {
+        var maker = new KeyboardMaker(props);
 
         var kFKeyHeight = 7;
         var kGroupSeparation1 = 9.9;

@@ -4,18 +4,24 @@ module.define('keyboards/maker', function (require, exports) {
 
     var labels = {}; // Fully initialized later.
 
-    function KeyboardMaker() {
+    function KeyboardMaker(props) {
+        props = props || {};
+        this.scale = props.scale || 0.7;
         this.x = 0;
         this.y = 0;
         this._keys = [];
-        this.labels = labels.qwerty;
+        this.labels = labels[props.labels || 'qwerty'];
     };
 
     exports.KeyboardMaker = KeyboardMaker;
 
     KeyboardMaker.prototype.getKeyboard = function () {
-        var w = -Infinity, h = -Infinity;
+        var w = -Infinity, h = -Infinity, scale = this.scale;
         this._keys.forEach(function (key) {
+            key.x *= scale;
+            key.y *= scale;
+            key.width *= scale;
+            key.height *= scale;
             w = Math.max(w, key.x + key.width);
             h = Math.max(h, key.y + key.height);
         });

@@ -15,6 +15,9 @@
     display:inline-block;
     width: auto;
     background-color: #ccc;
+    -moz-border-radius: 12px;
+    -webkit-border-radius: 12px;
+    border-radius: 12px;
     padding: 4mm;
 }
 

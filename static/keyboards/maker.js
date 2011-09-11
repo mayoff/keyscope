@@ -1,6 +1,6 @@
 
 
-module.define('keyboards/_utilities', function (require, exports) {
+module.define('keyboards/maker', function (require, exports) {
 
     var labels = {}; // Fully initialized later.
 

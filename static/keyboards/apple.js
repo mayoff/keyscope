@@ -2,10 +2,10 @@
 
 module.define('keyboards/apple', function (require, exports) {
 
-    var u = require('./_utilities');
+    var KeyboardMaker = require('./maker').KeyboardMaker;
 
     exports.keyboard = function () {
-        var maker = new u.KeyboardMaker();
+        var maker = new KeyboardMaker();
 
         var kFKeyHeight = 7;
         var kGroupSeparation1 = 9.9;

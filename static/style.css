@@ -1,21 +1,52 @@
 
 * {
-    box-sizing: padding-box;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+#keyboardFrame {
+    position: relative;
+    display:inline-block;
+    width: auto;
+    background-color: #ccc;
+    padding: 4mm;
 }
 
 #keyboard {
     position: relative;
-    padding: 4mm;
     box-sizing: content-box;
 }
 
 .key {
     position: absolute;
-    border: 1px solid black;
+    border-radius: 4px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+
+    background-color: white;
+
+    display: -moz-box;
+
+    display: -webkit-box;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+}
+
+.keyup {
+    -webkit-box-shadow: 0px 1px 1px #777;
+    -moz-box-shadow: 0px 1px 1px #777;
+    box-shadow: 0px 1px 1px #777;
+}
+
+.keylabel {
+    font: 8px/10px 'Lucida Grande', Helvetica, Arial, sans-serif;
     text-align: center;
 }
 
 .key.keydown {
-    background-color: red;
+    -webkit-box-shadow: inset 0px 1px 1px #444;
+    -moz-box-shadow: inset 0px 1px 1px #444;
+    box-shadow: inset 0px 1px 1px #444;
 }
 

@@ -20,10 +20,9 @@
 
     function initKeyboardView() {
         var html = '';
-        var format = require('utilities').format;
         var keyboard = require('keyboards/apple').keyboard();
         keyboard.keys.forEach(function (key) {
-            html += format('<div class="key keyup" id="key_{name}" style="left:{x}mm;top:{y}mm;width:{width}mm;height:{height}mm">{label}</div>\n', key);
+            html += u.format('<div class="key keyup" id="key_{name}" style="left:{x}mm;top:{y}mm;width:{width}mm;height:{height}mm">{label}</div>\n', key);
         });
         var keyboard$ = $('#keyboard');
         keyboard$.width(keyboard.width + 'mm');
@@ -84,20 +83,19 @@
 
     function initGradientSamples() {
         var gradient = [
-            [ .00, 255, 255, 255, 1 ],
-            [ .20, 128, 128, 255, 1 ],
-            [ .40, 128, 224, 224, 1 ],
-            [ .60, 128, 255, 128, 1 ],
-            [ .80, 224, 224, 128, 1 ],
-            [ 1.0, 255, 128, 128, 1 ],
-            [ 2.0, 255, 128, 128, 1 ]
-        ];
+            // x   hue  sat  lit
+            [ .00, 210, 100, 100 ],
+            [ .20, 210, 100,  75 ],
+            [ 1.0,   0, 100,  75 ]
+        ]
+
+        gradient.push(gradient[gradient.length - 1]);
 
         var gi = 0; // last index of gradient where gradient[gi][0] <= i;
         var startRow = gradient[gi];
         var endRow = gradient[gi+1];
 
-        for (var i = 0; i <= 1; i += 1/256) {
+        for (var i = 0; i <= 1; i += 1/128) {
             if (endRow[0] <= i) {
                 ++gi;
                 startRow = endRow;
@@ -110,8 +108,7 @@
             for (var j = 1; j < 4; ++j) {
                 c.push(Math.round(x1 * startRow[j] + x * endRow[j]));
             }
-            c.push(x1 * startRow[4] + x * endRow[4]);
-            gradientSamples.push('rgba(' + c.join(',') + ')');
+            gradientSamples.push(u.format('hsl({0}, {1}%, {2}%)', c));
         }
     }
 

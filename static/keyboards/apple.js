@@ -17,7 +17,7 @@ module.define('keyboards/apple', function (require, exports) {
             .right(kGroupSeparation1).keys('F13 F14 F15', { height: kFKeyHeight })
             .right(kGroupSeparation2).keys('F16 F17 F18 F19', { height: kFKeyHeight });
 
-        maker.newRow(13)
+        maker.newRow(11)
             .keys('Grave 1 2 3 4 5 6 7 8 9 0 Minus Equal').right()
             .wideKey('Delete', 25.1)
             .right(kGroupSeparation1).keys('Function Home PageUp')

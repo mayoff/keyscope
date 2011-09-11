@@ -1,26 +1,14 @@
-<!doctype html>
+<!doctype html><html><head>
 <meta charset=utf-8>
+<title>KeyScope</title>
+<link rel='stylesheet' href='style.css'>
+<script src='jquery-1.6.3.js'></script>
+<script src='module.js'></script>
+<script src='string.js'></script>
+<script src='keyboards/apple.js'></script>
+<script src='keyboards/_utilities.js'></script>
+<script src='main.js'></script>
+</head><body>
+<div id='keyboard'></div>
+</body></html>
 
-Hello, world!
-<div id='log'>
-</div>
-<script>
-    function log(s) {
-        document.getElementById('log').innerHTML += s;
-    }
-    function registerHandler(object, eventName, handler) {
-        object['on' + eventName] = handler;
-        // object.addEventListener(eventName, handler);
-    }
-    var source = new EventSource('/events');
-    registerHandler(source, 'open', function (event) {
-        log('open<br>');
-    });
-    registerHandler(source, 'message', function (event) {
-        log('message ' + event.data + '<br>');
-    });
-    registerHandler(source, 'error', function (event) {
-        log('error<br>');
-        console.log(event, source.readyState);
-    });
-</script>

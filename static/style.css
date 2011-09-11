@@ -1,0 +1,17 @@
+
+* {
+    box-sizing: padding-box;
+}
+
+#keyboard {
+    position: relative;
+    padding: 4mm;
+    box-sizing: content-box;
+}
+
+.key {
+    position: absolute;
+    border: 1px solid black;
+    text-align: center;
+}
+

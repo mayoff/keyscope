@@ -1,7 +1,7 @@
 
 
 # cfreactor uses the Mac's CFRunLoop, which is required to use an event tap
-from twisted.internet import cfreactor
+import cfreactor
 cfreactor.install()
 
 from twisted.web.resource import Resource

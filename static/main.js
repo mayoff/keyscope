@@ -10,6 +10,8 @@
     var gradientSamples = [];
     var keyPressCounts = {};
     var keysPressed = [];
+    var fingerForKey = {};
+    var keysForFinger = {};
 
     function main() {
         initGradientSamples();
@@ -47,6 +49,8 @@
         var keyboard = require('keyboards/apple').keyboard({
 	    labels: labelSetId
 	});
+	fingerForKey = keyboard.fingerForKey;
+	keysForFinger = keyboard.keysForFinger;
         keyboard.keys.forEach(function (key) {
             html += u.format('<div class="key keyup" id="key_{name}" style="left:{x}mm;top:{y}mm;width:{width}mm;height:{height}mm">{label}</div>\n', key);
         });
@@ -86,20 +90,51 @@
     }
 
     function onKeyPressCountsUpdated() {
+	removeZeroCounts();
+        saveKeyPressCounts();
+	recolorKeyboard();
+	redrawFingerCounts();
+    }
+
+    function removeZeroCounts() {
         keysPressed.sort(function (a, b) { return keyPressCounts[a] - keyPressCounts[b]; });
         while (keysPressed.length && keyPressCounts[keysPressed[0]] === 0) {
             keys$[keysPressed[0]][0].style.removeProperty('background-color');
             delete keyPressCounts[keysPressed[0]];
             keysPressed.shift();
         }
+    }
+
+    function recolorKeyboard() {
         var kl = Math.max(keysPressed.length - 1, 1);
         var gl = gradientSamples.length - 1;
         keysPressed.forEach(function (key, i) {
             var color = gradientSamples[Math.floor(gl * i / kl)];
             keys$[keysPressed[i]].css('background-color', color);
         });
+    }
 
-        saveKeyPressCounts();
+    function redrawFingerCounts() {
+	var fingerCounts = {};
+	for (var key in keysPressed) {
+	    var finger = fingerForKey[key];
+	    if (!finger)
+		continue;
+	    fingerCounts[finger] = (fingerCounts[finger] || 0) + keyPressCounts[key];
+	}
+	var maxCount = Math.max.apply(Math, u.values(fingerCounts));
+	u.keys(fingerCounts).forEach(function (finger) {
+	    drawFingerKeys(finger, maxCount);
+	});
+    }
+
+    function drawFingerKeys(finger, maxCount) {
+	var finger$ = $('#finger_' + finger);
+	if (!finger$.length)
+	    return;
+	var keys = keysForFinger[finger].filter(function (key) { return keyPressCounts[key] > 0; });
+	keys.sort(function (a, b) { return keyPressCounts[b] - keyPressCounts[a]; });
+	// xxx
     }
 
     function initKeyPressCounts() {

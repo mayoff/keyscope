@@ -12,6 +12,16 @@ module.define('utilities', function (require, exports) {
         return keys;
     };
 
+    exports.values = function (object) {
+	var hasOwnProperty = Object.property.hasOwnProperty;
+	var values = [];
+	for (var k in object) {
+	    if (hasOwnProperty.call(object, k))
+		values.push(object[k]);
+	}
+	return values;
+    };
+
     /**
         ## format
 

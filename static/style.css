@@ -111,3 +111,26 @@
     box-shadow: inset 0px 1px 1px #444;
 }
 
+#fingers {
+    height: 200px;
+    width: 100%;
+
+    display: -moz-box;
+    -moz-box-orient: horizontal;
+    -moz-box-align: stretch;
+    -moz-box-pack: justify;
+
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    -webkit-box-align: stretch;
+    -webkit-box-pack: justify;
+
+}
+
+.finger {
+    border: 1px solid black;
+    -moz-box-flex: 1;
+    -webkit-box-flex: 1;
+    margin: 0 5px;
+}
+

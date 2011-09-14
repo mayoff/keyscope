@@ -10,6 +10,8 @@ module.define('keyboards/maker', function (require, exports) {
         this.x = 0;
         this.y = 0;
         this._keys = [];
+	this._fingerForKey = {};
+	this._keysForFinger = {};
         this.labels = labelSets[props.labels || 'qwerty'].labels;
     };
 
@@ -28,7 +30,9 @@ module.define('keyboards/maker', function (require, exports) {
         return {
             width: w,
             height: h,
-            keys: this._keys
+            keys: this._keys,
+	    keysForFinger: this._keysForFinger,
+	    fingerForKey: this._fingerForKey
         };
     };
 
@@ -92,6 +96,16 @@ module.define('keyboards/maker', function (require, exports) {
             this.right(kKeyWidth);
         }
         return this;
+    };
+
+    KeyboardMaker.prototype.fingers = function (keysForFinger) {
+	for (var finger in keysForFinger) {
+	    var keys = keysForFinger[finger].split(' ');
+	    this._keysForFinger[finger] = keys;
+	    keys.forEach(function (key) {
+		this._fingerForKey[key] = finger;
+	    }, this);
+	}
     };
 
     function s(s) {

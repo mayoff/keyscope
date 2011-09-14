@@ -57,6 +57,19 @@ module.define('keyboards/apple', function (require, exports) {
             .right(kGroupSeparation2).wideKey('Keypad0', 34).right()
             .key('KeypadDecimal');
 
+	maker.fingers({
+	    L5: 'Escape Tilde 1 Tab Q CapsLock A Shift Z Control',
+	    L4: '2 W S X',
+	    L3: '3 E D C',
+	    L2: '4 R F V 5 T G B',
+	    L1: 'Option Command',
+	    R1: 'Space RightCommand RightOption LeftArrow',
+	    R2: '6 Y H N 7 U J M UpArrow DownArrow',
+	    R3: '8 I K Comma RightArrow',
+	    R4: '9 O L Period',
+	    R5: '0 P Semicolon Slash Minus LeftBracket Quote Equal RightBracket Delete Backslash Return RightShift'
+	});
+
         return maker.getKeyboard();
     };
 

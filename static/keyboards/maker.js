@@ -2,7 +2,7 @@
 
 module.define('keyboards/maker', function (require, exports) {
 
-    var labels = {}; // Fully initialized later.
+    var labelSets = {}; // Fully initialized later.
 
     function KeyboardMaker(props) {
         props = props || {};
@@ -10,7 +10,7 @@ module.define('keyboards/maker', function (require, exports) {
         this.x = 0;
         this.y = 0;
         this._keys = [];
-        this.labels = labels[props.labels || 'qwerty'];
+        this.labels = labelSets[props.labels || 'qwerty'].labels;
     };
 
     exports.KeyboardMaker = KeyboardMaker;
@@ -127,78 +127,123 @@ module.define('keyboards/maker', function (require, exports) {
         return '<div class="keylabelLR">' + s + '</div>';
     }
 
-    labels.qwerty = {
-        Escape: s('esc'),
-        Eject: '\u23cf',
-        Grave: p('~`'),
-        1: p('!1'),
-        2: p('@2'),
-        3: p('#3'),
-        4: p('$4'),
-        5: p('%5'),
-        6: p('^6'),
-        7: p('&7'),
-        8: p('*8'),
-        9: p('(9'),
-        0: p(')0'),
-        Minus: p('_-'),
-        Equal: p('+='),
-        Delete: lr('delete'),
-        Function: s('fn'),
-        Home: s('home'),
-        PageUp: s('page<br>up'),
-        KeypadClear: s('clear'),
-        KeypadEquals: '=',
-        KeypadDivide: '/',
-        KeypadMultiply: '*',
-        Tab: ll('tab'),
-        LeftBracket: p('{['),
-        RightBracket: p('}]'),
-        Backslash: p('|\\'),
-        ForwardDelete: ss('delete\u2326'),
-        End: s('end'),
-        PageDown: s('page<br>down'),
-        Keypad7: '7',
-        Keypad8: '8',
-        Keypad9: '9',
-        KeypadMinus: '-',
-        CapsLock: ll('caps lock'),
-        Semicolon: p(':;'),
-        Quote: p('"\''),
-        Return: lr('return'),
-        Keypad4: '4',
-        Keypad5: '5',
-        Keypad6: '6',
-        KeypadPlus: '+',
-        Shift: ll('shift'),
-        Comma: p('<,'),
-        Period: p('>.'),
-        Slash: p('?/'),
-        RightShift: lr('shift'),
-        UpArrow: s('\u25b2'),
-        Keypad1: '1',
-        Keypad2: '2',
-        Keypad3: '3',
-        KeypadEnter: lr('enter'),
-        Control: ll('control'),
-        Option: ll('option'),
-        Command: ll('command'),
-        Space: ' ',
-        RightCommand: lr('command'),
-        RightOption: lr('option'),
-        RightControl: lr('control'),
-        LeftArrow: s('\u25c0'),
-        DownArrow: s('\u25bc'),
-        RightArrow: s('\u25b6'),
-        Keypad0: '0',
-        KeypadDecimal: '.'
+    labelSets.qwerty = {
+	humanName: 'QWERTY',
+	labels: {
+	    Escape: s('esc'),
+	    Eject: '\u23cf',
+	    Grave: p('~`'),
+	    1: p('!1'),
+	    2: p('@2'),
+	    3: p('#3'),
+	    4: p('$4'),
+	    5: p('%5'),
+	    6: p('^6'),
+	    7: p('&7'),
+	    8: p('*8'),
+	    9: p('(9'),
+	    0: p(')0'),
+	    Minus: p('_-'),
+	    Equal: p('+='),
+	    Delete: lr('delete'),
+	    Function: s('fn'),
+	    Home: s('home'),
+	    PageUp: s('page<br>up'),
+	    KeypadClear: s('clear'),
+	    KeypadEquals: '=',
+	    KeypadDivide: '/',
+	    KeypadMultiply: '*',
+	    Tab: ll('tab'),
+	    LeftBracket: p('{['),
+	    RightBracket: p('}]'),
+	    Backslash: p('|\\'),
+	    ForwardDelete: ss('delete\u2326'),
+	    End: s('end'),
+	    PageDown: s('page<br>down'),
+	    Keypad7: '7',
+	    Keypad8: '8',
+	    Keypad9: '9',
+	    KeypadMinus: '-',
+	    CapsLock: ll('caps lock'),
+	    Semicolon: p(':;'),
+	    Quote: p('"\''),
+	    Return: lr('return'),
+	    Keypad4: '4',
+	    Keypad5: '5',
+	    Keypad6: '6',
+	    KeypadPlus: '+',
+	    Shift: ll('shift'),
+	    Comma: p('<,'),
+	    Period: p('>.'),
+	    Slash: p('?/'),
+	    RightShift: lr('shift'),
+	    UpArrow: s('\u25b2'),
+	    Keypad1: '1',
+	    Keypad2: '2',
+	    Keypad3: '3',
+	    KeypadEnter: lr('enter'),
+	    Control: ll('control'),
+	    Option: ll('option'),
+	    Command: ll('command'),
+	    Space: ' ',
+	    RightCommand: lr('command'),
+	    RightOption: lr('option'),
+	    RightControl: lr('control'),
+	    LeftArrow: s('\u25c0'),
+	    DownArrow: s('\u25bc'),
+	    RightArrow: s('\u25b6'),
+	    Keypad0: '0',
+	    KeypadDecimal: '.'
+	}
     };
 
     for (var i = 1; i < 20; ++i) {
-        labels.qwerty['F'+i] = f('F'+i);
+        labelSets.qwerty.labels['F'+i] = f('F'+i);
     }
 
-    labels.dvorak = $.extend({}, labels.qwerty);
+    labelSets.dvorak = {
+	humanName: 'Dvorak',
+	labels: $.extend({}, labelSets.qwerty.labels, {
+	    Q: p('"\''),
+	    W: p('<,'),
+	    E: p('>.'),
+	    R: 'P',
+	    T: 'Y',
+	    Y: 'F',
+	    U: 'G',
+	    I: 'C',
+	    O: 'R',
+	    P: 'L',
+	    LeftBracket: p('?/'),
+	    RightBracket: p('+='),
+	    A: 'A',
+	    S: 'O',
+	    D: 'E',
+	    F: 'U',
+	    G: 'I',
+	    H: 'D',
+	    J: 'H',
+	    K: 'T',
+	    L: 'N',
+	    Semicolon: 'S',
+	    Quote: p('_-'),
+	    Z: p(':;'),
+	    X: 'Q',
+	    C: 'J',
+	    V: 'K',
+	    B: 'X',
+	    N: 'B',
+	    M: 'M',
+	    Comma: 'W',
+	    Period: 'Z'
+	})
+    };
+
+    exports.labelSetIds = require('utilities').keys(labelSets);
+
+    exports.humanNameForLabelSetId = function (id) {
+	return labelSets[id].humanName;
+    };
 
 });
 

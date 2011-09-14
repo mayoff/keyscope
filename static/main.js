@@ -5,6 +5,7 @@
     var require = module.require;
     var u = require('utilities');
     var keys$ = {};
+    var labelSetSelect$;
 
     var gradientSamples = [];
     var keyPressCounts = {};
@@ -12,6 +13,7 @@
 
     function main() {
         initGradientSamples();
+	initLabelSetSelect();
         initKeyboardView();
         initKeyPressCounts();
         $('#resetButton').click(resetKeyPressCounts);
@@ -19,9 +21,32 @@
         sniffer['onmessage'] = onSnifferMessage;
     }
 
+    function initLabelSetSelect() {
+	labelSetSelect$ = $('#labelSetSelect');
+	var km = require('keyboards/maker');
+	var html = '';
+	var selectedId = localStorage.KeyScope_labelSetId || 'qwerty';
+	km.labelSetIds.forEach(function (id) {
+	    html += u.format('<option value="{id}"{selected}>{name}</option>', {
+		id: id,
+		name: km.humanNameForLabelSetId(id),
+		selected: id === selectedId ? ' selected' : ''
+	    });
+	});
+	labelSetSelect$.html(html);
+	labelSetSelect$.change(function () {
+	    localStorage.KeyScope_labelSetId = labelSetSelect$.val();
+	    initKeyboardView();
+	    onKeyPressCountsUpdated();
+	});
+    }
+
     function initKeyboardView() {
         var html = '';
-        var keyboard = require('keyboards/apple').keyboard();
+	var labelSetId = labelSetSelect$.val();
+        var keyboard = require('keyboards/apple').keyboard({
+	    labels: labelSetId
+	});
         keyboard.keys.forEach(function (key) {
             html += u.format('<div class="key keyup" id="key_{name}" style="left:{x}mm;top:{y}mm;width:{width}mm;height:{height}mm">{label}</div>\n', key);
         });

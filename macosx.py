@@ -4,15 +4,13 @@
 import cfreactor
 cfreactor.install()
 
-from twisted.web.resource import Resource
-from twisted.web import server
-from twisted.internet import task, reactor
-import json
-import subprocess
-
 # Quartz is part of PyObjC, which comes standard on at least Mac OS X 10.6 and 10.7.
 from Quartz import *
 
+import json
+import subprocess
+
+# Try to make sure access for assistive devices is enabled, since the event tap won't work without it.
 subprocess.call(['osascript', '-e', 'tell app "System Events" to set UI elements enabled to true'])
 
 #/System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/Events.h
@@ -39,13 +37,15 @@ def keynameOfEvent(event):
     else:
         return '0x%x' % keycode
 
-class EventsPage(Resource):
+class Sniffer(object):
     isLeaf = True
 
     def __init__(self):
-        Resource.__init__(self)
-        self.__requests = []
+	self.__callback = None
         self.__initEventTap()
+
+    def setCallback(self, callback):
+	self.__callback = callback
 
     def __initEventTap(self):
         eventMask = (0
@@ -54,7 +54,7 @@ class EventsPage(Resource):
             | CGEventMaskBit(kCGEventFlagsChanged)
         )
         tap = CGEventTapCreate(kCGAnnotatedSessionEventTap, kCGHeadInsertEventTap, kCGEventTapOptionListenOnly, eventMask, self.__onTapEvent, None)
-        source = CFMachPortCreateRunLoopSource(None, tap, 0);
+        source = CFMachPortCreateRunLoopSource(None, tap, 0)
         CFRunLoopAddSource(CFRunLoopGetCurrent(), source, kCFRunLoopCommonModes)
         CGEventTapEnable(tap, True)
 
@@ -64,6 +64,9 @@ class EventsPage(Resource):
         , event # CGEventRef
         , context # void*
     ):
+	if not self.__callback:
+	    return
+
         message = { 'key': keynameOfEvent(event) }
         if type == kCGEventKeyDown:
             if CGEventGetIntegerValueField(event, kCGKeyboardEventAutorepeat):
@@ -81,21 +84,5 @@ class EventsPage(Resource):
         else:
             return
 
-        self.__send(message)
+	self.__callback(message)
 
-    def __send(self, message):
-        js = json.dumps(message)
-        data = '\n'.join([('data:' + line + '\n') for line in js.split('\n') ]) + '\n'
-        for r in self.__requests:
-            r.write(data)
-
-    def render_GET(self, request):
-        request.notifyFinish().addErrback(self.__requestTerminated, request)
-        self.__requests.append(request)
-        request.setHeader('Content-Type', 'text/event-stream')
-        request.setHeader('Cache-Control', 'no-cache')
-        request.setHeader('Connection', 'keep-alive')
-        return server.NOT_DONE_YET
-
-    def __requestTerminated(self, err, request):
-        self.__requests.remove(request)

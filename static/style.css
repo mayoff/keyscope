@@ -11,9 +11,8 @@
 }
 
 #keyboardFrame {
-    position: relative;
-    display:inline-block;
-    width: auto;
+    overflow-x: auto;
+    width: intrinsic;
     background-color: #ccc;
     -moz-border-radius: 12px;
     -webkit-border-radius: 12px;
@@ -22,6 +21,7 @@
 }
 
 #keyboard {
+    display: inline-block;
     position: relative;
     box-sizing: content-box;
 }
@@ -112,25 +112,67 @@
 }
 
 #fingers {
-    height: 200px;
+    position: relative;
+    height: 300px;
     width: 100%;
-
-    display: -moz-box;
-    -moz-box-orient: horizontal;
-    -moz-box-align: stretch;
-    -moz-box-pack: justify;
+    margin-top: .125in;
 
     display: -webkit-box;
     -webkit-box-orient: horizontal;
-    -webkit-box-align: stretch;
+    -webkit-box-align: end;
     -webkit-box-pack: justify;
-
 }
 
 .finger {
-    border: 1px solid black;
-    -moz-box-flex: 1;
-    -webkit-box-flex: 1;
-    margin: 0 5px;
+    width: 9%;
+    height: 100%;
+    margin: 0 0.5%;
+    border-bottom: 1px solid hsl(210, 100%, 88%);
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-pack: end;
+    -webkit-box-direction: reverse;
+}
+
+.fingerKey {
+    position: relative;
+    font: 9px Arial;
+
+    width: 100%;
+    background: -webkit-gradient(linear, left top, left bottom, from(hsl(210, 100%, 85%)), to(hsl(210, 100%, 100%)));
+}
+
+.fingerKeyLabel {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.fingerKeyToolTipL, .fingerKeyToolTipR {
+    display: none;
+    position: absolute;
+    top: 0;
+    background: hsl(60, 100%, 90%);
+    border: 1px solid hsl(60, 80%, 70%);
+    padding: .5em;
+    font: 14px Arial;
+    z-index: 2;
+}
+
+.fingerKey:hover .fingerKeyToolTipL, .fingerKey:hover .fingerKeyToolTipR {
+    display: block;
+}
+
+.fingerKeyToolTipL {
+    left: 100%;
+}
+
+.fingerKeyToolTipR {
+    right: 100%;
+}
+
+#controls {
+    margin-bottom: .125in;
 }
 

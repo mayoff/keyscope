@@ -12,6 +12,7 @@
     var keysPressed = [];
     var fingerForKey = {};
     var keysForFinger = {};
+    var fingerKeyNodeForKeyMap = {};
 
     function main() {
         initGradientSamples();
@@ -99,8 +100,11 @@
     function removeZeroCounts() {
         keysPressed.sort(function (a, b) { return keyPressCounts[a] - keyPressCounts[b]; });
         while (keysPressed.length && keyPressCounts[keysPressed[0]] === 0) {
-            keys$[keysPressed[0]][0].style.removeProperty('background-color');
-            delete keyPressCounts[keysPressed[0]];
+	    var key = keysPressed[0];
+            keys$[key][0].style.removeProperty('background-color');
+	    var fingerKeyNode = fingerKeyNodeForKey(key);
+	    fingerKeyNode.parentNode.removeChild(fingerKeyNode);
+            delete keyPressCounts[key];
             keysPressed.shift();
         }
     }
@@ -116,7 +120,7 @@
 
     function redrawFingerCounts() {
 	var fingerCounts = {};
-	for (var key in keysPressed) {
+	for (var key in keyPressCounts) {
 	    var finger = fingerForKey[key];
 	    if (!finger)
 		continue;
@@ -129,12 +133,29 @@
     }
 
     function drawFingerKeys(finger, maxCount) {
-	var finger$ = $('#finger_' + finger);
-	if (!finger$.length)
+	var fingerNode = $('#finger_' + finger)[0];
+	if (!fingerNode)
 	    return;
 	var keys = keysForFinger[finger].filter(function (key) { return keyPressCounts[key] > 0; });
 	keys.sort(function (a, b) { return keyPressCounts[b] - keyPressCounts[a]; });
-	// xxx
+	keys.forEach(function (key, i) {
+	    var keyNode = fingerKeyNodeForKey(key);
+	    if (fingerNode.children[i] !== keyNode)
+		fingerNode.insertBefore(keyNode, fingerNode.children[i]);
+	    keyNode.style.height = Math.max(1, 100 * keyPressCounts[key] / maxCount) + '%';
+	});
+    }
+
+    function fingerKeyNodeForKey(key) {
+	var node = fingerKeyNodeForKeyMap[key];
+	if (!node) {
+	    node = fingerKeyNodeForKeyMap[key] = document.createElement('div');
+	    node.id = 'fingerKey_' + key;
+	    node.className = 'fingerKey';
+	    side = fingerForKey[key][0];
+	    node.innerHTML = u.format('<div class="fingerKeyLabel">{key}</div><div class="fingerKeyToolTip{side}">{key}</div>', {key: key, side: side});
+	}
+	return node;
     }
 
     function initKeyPressCounts() {

@@ -1,16 +1,14 @@
-
-
-# cfreactor uses the Mac's CFRunLoop, which is required to use an event tap
-import cfreactor
-cfreactor.install()
+#!/usr/bin/python
 
 # Quartz is part of PyObjC, which comes standard on at least Mac OS X 10.6 and 10.7.
 from Quartz import *
 
 import json
-import subprocess
+import signal
+import sys
 
 # Try to make sure access for assistive devices is enabled, since the event tap won't work without it.
+import subprocess
 subprocess.call(['osascript', '-e', 'tell app "System Events" to set UI elements enabled to true'])
 
 #/System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/Events.h
@@ -41,11 +39,7 @@ class Sniffer(object):
     isLeaf = True
 
     def __init__(self):
-	self.__callback = None
         self.__initEventTap()
-
-    def setCallback(self, callback):
-	self.__callback = callback
 
     def __initEventTap(self):
         eventMask = (0
@@ -64,9 +58,6 @@ class Sniffer(object):
         , event # CGEventRef
         , context # void*
     ):
-	if not self.__callback:
-	    return
-
         message = { 'key': keynameOfEvent(event) }
         if type == kCGEventKeyDown:
             if CGEventGetIntegerValueField(event, kCGKeyboardEventAutorepeat):
@@ -84,5 +75,13 @@ class Sniffer(object):
         else:
             return
 
-	self.__callback(message)
+	sys.stdout.write('data:' + json.dumps(message) + '\n\n')
+	sys.stdout.flush()
+
+if __name__ == '__main__':
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+    signal.signal(signal.SIGTERM, signal.SIG_DFL)
+    signal.signal(signal.SIGPIPE, signal.SIG_DFL)
+    sniffer = Sniffer()
+    CFRunLoopRun()
 

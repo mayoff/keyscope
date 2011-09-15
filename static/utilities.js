@@ -13,7 +13,7 @@ module.define('utilities', function (require, exports) {
     };
 
     exports.values = function (object) {
-	var hasOwnProperty = Object.property.hasOwnProperty;
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
 	var values = [];
 	for (var k in object) {
 	    if (hasOwnProperty.call(object, k))

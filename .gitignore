@@ -1,1 +1,4 @@
 *.pyc
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/

@@ -1,0 +1,246 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		31EA065F142298FF002137B5 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31EA065E142298FF002137B5 /* Carbon.framework */; };
+		31EA066114229906002137B5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31EA066014229906002137B5 /* Cocoa.framework */; };
+		31EA066714229939002137B5 /* keycodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 31EA066314229939002137B5 /* keycodes.m */; };
+		31EA066814229939002137B5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 31EA066414229939002137B5 /* main.m */; };
+		31EA066914229939002137B5 /* Recorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 31EA066614229939002137B5 /* Recorder.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		31EA064C14229568002137B5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		31EA064E14229568002137B5 /* sniffer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = sniffer; sourceTree = BUILT_PRODUCTS_DIR; };
+		31EA065814229568002137B5 /* sniffer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "sniffer-Prefix.pch"; sourceTree = "<group>"; };
+		31EA065E142298FF002137B5 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = DEVELOPER_DIR; };
+		31EA066014229906002137B5 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		31EA066214229939002137B5 /* keycodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keycodes.h; sourceTree = "<group>"; };
+		31EA066314229939002137B5 /* keycodes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = keycodes.m; sourceTree = "<group>"; };
+		31EA066414229939002137B5 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		31EA066514229939002137B5 /* Recorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Recorder.h; sourceTree = "<group>"; };
+		31EA066614229939002137B5 /* Recorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Recorder.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		31EA064B14229568002137B5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31EA066114229906002137B5 /* Cocoa.framework in Frameworks */,
+				31EA065F142298FF002137B5 /* Carbon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		31EA06411422951F002137B5 = {
+			isa = PBXGroup;
+			children = (
+				31EA065414229568002137B5 /* sniffer */,
+				31EA065114229568002137B5 /* Frameworks */,
+				31EA064F14229568002137B5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		31EA064F14229568002137B5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				31EA064E14229568002137B5 /* sniffer */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		31EA065114229568002137B5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				31EA066014229906002137B5 /* Cocoa.framework */,
+				31EA065E142298FF002137B5 /* Carbon.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		31EA065414229568002137B5 /* sniffer */ = {
+			isa = PBXGroup;
+			children = (
+				31EA066214229939002137B5 /* keycodes.h */,
+				31EA066314229939002137B5 /* keycodes.m */,
+				31EA066414229939002137B5 /* main.m */,
+				31EA066514229939002137B5 /* Recorder.h */,
+				31EA066614229939002137B5 /* Recorder.m */,
+				31EA065714229568002137B5 /* Supporting Files */,
+			);
+			path = sniffer;
+			sourceTree = "<group>";
+		};
+		31EA065714229568002137B5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				31EA065814229568002137B5 /* sniffer-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		31EA064D14229568002137B5 /* sniffer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 31EA065B14229568002137B5 /* Build configuration list for PBXNativeTarget "sniffer" */;
+			buildPhases = (
+				31EA064A14229568002137B5 /* Sources */,
+				31EA064B14229568002137B5 /* Frameworks */,
+				31EA064C14229568002137B5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = sniffer;
+			productName = sniffer;
+			productReference = 31EA064E14229568002137B5 /* sniffer */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		31EA06431422951F002137B5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+				ORGANIZATIONNAME = "RGM Advisors, LLC";
+			};
+			buildConfigurationList = 31EA06461422951F002137B5 /* Build configuration list for PBXProject "sniffer-macosx" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 31EA06411422951F002137B5;
+			productRefGroup = 31EA064F14229568002137B5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				31EA064D14229568002137B5 /* sniffer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		31EA064A14229568002137B5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31EA066714229939002137B5 /* keycodes.m in Sources */,
+				31EA066814229939002137B5 /* main.m in Sources */,
+				31EA066914229939002137B5 /* Recorder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		31EA06481422951F002137B5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		31EA06491422951F002137B5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		31EA065C14229568002137B5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "sniffer/sniffer-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = /;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		31EA065D14229568002137B5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "sniffer/sniffer-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = /;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.6;
+				STRIP_INSTALLED_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		31EA06461422951F002137B5 /* Build configuration list for PBXProject "sniffer-macosx" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31EA06481422951F002137B5 /* Debug */,
+				31EA06491422951F002137B5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		31EA065B14229568002137B5 /* Build configuration list for PBXNativeTarget "sniffer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31EA065C14229568002137B5 /* Debug */,
+				31EA065D14229568002137B5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 31EA06431422951F002137B5 /* Project object */;
+}

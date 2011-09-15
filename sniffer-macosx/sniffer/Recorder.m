@@ -25,7 +25,7 @@ BOOL isAutorepeat(CGEventRef event)
 {
     if (isAutorepeat(event))
         return;
-    const char* string = [[NSString stringWithFormat:@"data:{'action':'%@','key':'%@'}\n\n", action, keynameOfEvent(event)] UTF8String];
+    const char* string = [[NSString stringWithFormat:@"data:{\"action\":\"%@\",\"key\":\"%@\"}\n\n", action, keynameOfEvent(event)] UTF8String];
     write(1, string, strlen(string));
 }
 

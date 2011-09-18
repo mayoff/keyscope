@@ -1,6 +1,20 @@
 
 
+/**
+
+# Module utilities
+
+## Methods
+
+*/
+
 module.define('utilities', function (require, exports) {
+
+    /**
+    ### keys
+
+    This method performs the same function as the standard `Object.keys` method, in case your platform doesn't have the standard method.
+    */
 
     exports.keys = Object.keys || function (object) {
         var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -12,6 +26,13 @@ module.define('utilities', function (require, exports) {
         return keys;
     };
 
+    /**
+    ### values
+
+    > `utilities.values(object)` &rarr; `[value1, value2, ...]`
+
+    I return a list containing the value of `object`'s enumerable properties.
+    */
     exports.values = function (object) {
 	var hasOwnProperty = Object.prototype.hasOwnProperty;
 	var values = [];
@@ -22,6 +43,13 @@ module.define('utilities', function (require, exports) {
 	return values;
     };
 
+    /**
+    ### create
+
+    > `utilities.create(prototype, props)` &rarr; `object`
+
+    I create `object`, whose prototype is `prototype`.  I copy each enumerable property from `props` to `object`.
+    */
     exports.create = function (prototype, props, name) {
         function AnonymousClass() { }
         if (name)

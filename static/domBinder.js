@@ -1,5 +1,13 @@
 
 
+/**
+
+# Module domBinder
+
+## Methods
+
+*/
+
 module.define('domBinder', function (require, exports) {
 
     var binders = {};

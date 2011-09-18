@@ -22,8 +22,16 @@ module.define('utilities', function (require, exports) {
 	return values;
     };
 
+    exports.create = function (prototype, props, name) {
+        function AnonymousClass() { }
+        if (name)
+            AnonymousClass.displayName = name;
+        AnonymousClass.prototype = prototype;
+        return $.extend(new AnonymousClass(), props);
+    };
+
     /**
-        ## format
+        ### format
 
             format(aString, anObject) -> aFormattedString
 

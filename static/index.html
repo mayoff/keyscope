@@ -2,17 +2,12 @@
 <meta charset=utf-8>
 <title>KeyScope</title>
 <link rel='stylesheet' href='style.css'>
-<script src='jquery-1.6.4.min.js'></script>
-<script src='module.js'></script>
-<script src='utilities.js'></script>
-<script src='keyboards/apple.js'></script>
-<script src='keyboards/maker.js'></script>
-<script src='main.js'></script>
 </head><body>
-<form id='controls'>
-<button id='resetButton'>Reset Keypress Counts</button>
-<select id='labelSetSelect'></select>
-</form>
+<div id='controls'>
+<button data-bind-event='resetKeyPressCounts'>Reset Keypress Counts</button>
+<select id='keyboardSelect' data-bind-value='model.layoutId'></select>
+<select id='labelSetSelect' data-bind-value='model.labelSetId'></select>
+</div>
 <div id='keyboardFrame'><div id='keyboard'></div></div>
 <div id='fingers'
     ><div id='finger_L5' class='finger'></div
@@ -26,5 +21,16 @@
     ><div id='finger_R4' class='finger'></div
     ><div id='finger_R5' class='finger'></div
 ></div>
+<script src='jquery-1.6.4.min.js'></script>
+<script src='module.js'></script>
+<script src='utilities.js'></script>
+<script src='observe.js'></script>
+<script src='bind.js'></script>
+<script src='domBinder.js'></script>
+<script src='model.js'></script>
+<script src='keyboards.js'></script>
+<script src='keyboards/apple-us-with-keypad.js'></script>
+<script src='keyboardView.js'></script>
+<script src='app.js'></script>
 </body></html>
 

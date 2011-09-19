@@ -50,6 +50,10 @@ var module;
         try {
             factory(module.require, exports, {id: id});
         } catch (e) {
+            if (!e['module.require logged this already']) {
+                console.log('Factory of module ' + id + ' threw this:', e, e.stack);
+                e['module.require logged this already'] = true;
+            }
             delete modules[id];
             factories[id] = factory;
             throw e;

@@ -3,10 +3,12 @@
 module.define('observe', function (require, exports) {
 
     exports.observePath = function (subject, path, method, observer) {
-        observePathStartingAtIndex(subject, path.slice(0), method, observer, 0);
+        path = (path instanceof Array) ? path.slice(0) : path.split('.');
+        observePathStartingAtIndex(subject, path, method, observer, 0);
     };
 
     exports.stopObservingPath = function (subject, path, method, observer) {
+        pat = (path instanceof Array) ? path : path.split('.');
         stopObservingPathStartingAtIndex(subject, path, method, observer, 0);
     };
 
@@ -100,7 +102,7 @@ module.define('observe', function (require, exports) {
                     error.subject = subject;
                     throw error;
                 }
-                var os = __observers.slice();
+                var os = __observers.slice(0);
                 moveObservers(os, oldValue, newValue);
                 oldSet.call(this, newValue);
                 isNotifying = true;

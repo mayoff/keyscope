@@ -11,7 +11,7 @@
 module.define('domBinder', function (require, exports) {
 
     var binders = {};
-    var Binding = require('bind').Binding;
+    var bind = require('bind');
 
     /**
     ### bind
@@ -99,8 +99,7 @@ module.define('domBinder', function (require, exports) {
                 console.log('error: I don\'t know how to bind the value af a ' + node.tagName);
         }
 
-        new Binding().bindObjectAndPath(owner, path).bindElementValue(node);
-
+        bind.fromObjectPath(owner, path).toElementValue(node);
     };
 
 });

@@ -266,7 +266,8 @@ module.define('keyboards', function (require, exports) {
 	    N: 'B',
 	    M: 'M',
 	    Comma: 'W',
-	    Period: 'Z'
+	    Period: 'V',
+	    Slash: 'Z'
 	})
     };
 

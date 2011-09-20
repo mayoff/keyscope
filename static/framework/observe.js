@@ -1,6 +1,6 @@
 
 
-module.define('observe', function (require, exports) {
+module.define('framework/observe', function (require, exports) {
 
     exports.observePath = function (subject, path, method, observer) {
         path = (path instanceof Array) ? path.slice(0) : path.split('.');

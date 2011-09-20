@@ -97,10 +97,10 @@ I create a `change` event and ask `domElement` to dispatch it.  This makes me sy
 
 */
 
-module.define('bind', function (require, exports) {
+module.define('framework/bind', function (require, exports) {
 
-    var ob = require('observe');
-    var u = require('utilities');
+    var ob = require('./observe');
+    var u = require('./utilities');
 
     var kSyncEventData = '\03bc.sync';
     var scheduledBindings = [];

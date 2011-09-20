@@ -2,9 +2,9 @@
 
 module.define('keyController', function (require, exports) {
 
-    var format = require('utilities').format;
-    var domBinder = require('domBinder');
-    var observe = require('observe');
+    var format = require('framework/utilities').format;
+    var domBinder = require('framework/domBinder');
+    var observe = require('framework/observe');
 
     exports.make = function (args) {
         return new KeyController(args.keyDescription, args.app, args.parentNode);

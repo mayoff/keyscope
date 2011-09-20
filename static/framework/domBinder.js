@@ -8,10 +8,10 @@
 
 */
 
-module.define('domBinder', function (require, exports) {
+module.define('framework/domBinder', function (require, exports) {
 
+    var bind = require('./bind');
     var binders = {};
-    var bind = require('bind');
 
     /**
     ### bind

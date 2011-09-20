@@ -2,8 +2,8 @@
 
 module.define('app', function (require, exports) {
 
-    var format = require('utilities').format;
-    var observePath = require('observe').observePath;
+    var format = require('framework/utilities').format;
+    var observePath = require('framework/observe').observePath;
     var keyboards = require('keyboards');
     var keyController = require('keyController');
     var sniffer = require('sniffer');
@@ -22,7 +22,7 @@ module.define('app', function (require, exports) {
             this.initLabelSetSelectElement();
             observePath(this.model, 'layoutId', this.layoutIdDidChange, this);
             observePath(this.model, 'labelSetId', this.labelSetIdDidChange, this);
-            require('domBinder').bind(document.body, this);
+            require('framework/domBinder').bind(document.body, this);
             this.layoutIdDidChange();
             this.labelSetIdDidChange();
             sniffer.runWithCallback(this.onSnifferMessage, this);
@@ -47,7 +47,7 @@ module.define('app', function (require, exports) {
                     id: id,
                     name: keyboards.humanNameForLabelSetId(id)
                 });
-            }), this;
+            }, this);
             var id = app.model.labelSetId;
             $('#labelSetSelect').html(html).val(id);
         },

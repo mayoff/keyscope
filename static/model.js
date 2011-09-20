@@ -2,8 +2,7 @@
 
 module.define('model', function (require, exports) {
 
-    var bind = require('bind');
-    var ob = require('observe');
+    var bind = require('framework/bind');
 
     var kLayoutIdKey = 'KeyScope_layoutId';
     var kLabelSetIdKey = 'KeyScope_labelSetId';

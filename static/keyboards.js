@@ -2,13 +2,12 @@
 
 module.define('keyboards', function (require, exports) {
 
-    var keyboards = {};
-    'apple-us-with-keypad'.split(' ').forEach(function (id) {
-        keyboards[id] = require('keyboards/' + id);
-    });
+    var keyboards = {
+        'apple-us-with-keypad': require('keyboards/apple-us-with-keypad')
+    };
 
     var labelSets = {}; // Fully initialized later.
-    var u = require('utilities');
+    var u = require('framework/utilities');
 
     exports.keyboardIds = u.keys(keyboards);
 

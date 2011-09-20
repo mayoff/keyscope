@@ -8,7 +8,7 @@
 
 */
 
-module.define('utilities', function (require, exports) {
+module.define('framework/utilities', function (require, exports) {
 
     /**
     ### keys

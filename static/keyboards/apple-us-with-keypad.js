@@ -4,7 +4,7 @@ module.define('keyboards/apple-us-with-keypad', function (require, exports, modu
 
     exports.humanName = 'Apple US with Keypad';
     exports.makeKeyboard = function () {
-        var maker = new require('keyboards').KeyboardMaker();
+        var maker = new (require('keyboards').KeyboardMaker)();
 
         var kFKeyHeight = 9;
         var kGroupSeparation1 = 9.9;

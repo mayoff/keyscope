@@ -61,7 +61,7 @@ module.define('observe', function (require, exports) {
         return desc && desc.set && desc.set.__observers;
     }
 
-    var defaultDescriptor = {
+    var undefined, defaultDescriptor = {
         value: undefined,
         writable: true,
         enumerable: true,
@@ -107,10 +107,8 @@ module.define('observe', function (require, exports) {
                 oldSet.call(this, newValue);
                 isNotifying = true;
                 try {
-                    for (var i = os.length; i--; ) {
-                        var o = os[i];
-                        o.method.call(o.observer);
-                    }
+                    for (var i = os.length; i--; )
+                        notifyObserver(os[i], this);
                 } finally {
                     isNotifying = false;
                 }
@@ -120,6 +118,14 @@ module.define('observe', function (require, exports) {
         desc.set.__observers = __observers;
         Object.defineProperty(subject, key, desc);
         return __observers;
+    }
+
+    function notifyObserver(o, changedObject) {
+        var path = o.path, l = path.length, undefined;
+        for (var i = o.pathIndex; i < l && changedObject !== null && changedObject !== undefined; ++i) {
+            changedObject = changedObject[path[i]];
+        }
+        o.method.call(o.observer, changedObject);
     }
 
     function isDataDescriptor(desc) {

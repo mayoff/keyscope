@@ -54,22 +54,28 @@ module.define('domBinder', function (require, exports) {
 
     #### Specification of data-bind-value
 
-    I look for descendants of `root` that have a `data-bind` attribute.
+    I look for descendants of `root` that have a `data-bind-value` attribute. xxx
 
     */
 
     exports.bind = function (root, owner) {
         for (var key in binders) {
             var binder = binders[key];
-            var a = 'data-bind-' + key;
-            var nodes = root.querySelectorAll('[' + a + ']');
+            var a = 'data-bind-' + key, selector = '[' + a + ']';
+            if ($(root).is(selector))
+                runBinder(binder, a, root, owner);
+            var nodes = root.querySelectorAll(selector);
             Array.prototype.forEach.call(nodes, function (node) {
-                var value = node.getAttribute(a);
-                if (value)
-                    binder(node, value, owner);
+                runBinder(binder, a, node, owner);
             });
         }
     };
+
+    function runBinder(binder, attribute, node, owner) {
+        var value = node.getAttribute(attribute);
+        if (value)
+            binder(node, value, owner);
+    }
 
     binders.event = function (node, path, owner) {
         var event;
@@ -100,6 +106,10 @@ module.define('domBinder', function (require, exports) {
         }
 
         bind.fromObjectPath(owner, path).toElementValue(node);
+    };
+
+    binders.innerhtml = function (node, path, owner) {
+        bind.fromObjectPath(owner, path).toElementAttribute(node, 'innerHTML');
     };
 
 });

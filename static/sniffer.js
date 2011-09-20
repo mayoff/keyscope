@@ -2,23 +2,21 @@
 
 module.define('sniffer', function (require, exports) {
 
-    var bus = require('messagebus');
-    exports.kKeyDownSubject = 'keydown';
-    exports.kKeyUpSubject = 'keyup';
-
     var eventSource;
+    var callbackMethod, callbackObject;
 
     function onMessage(event) {
 	var message = JSON.parse(event.data);
-	var subject = message.action === 'up' ? kKeyUpSubject : kKeyDownSubject;
-	bus.publish(subject, message);
+	callbackMethod.call(callbackObject, message);
     }
 
-    exports.run = function () {
+    exports.runWithCallback = function (method, object) {
 	if (eventSource) {
 	    try { eventSource.close(); }
 	    catch (e) { }
 	}
+	callbackMethod = method;
+	callbackObject = object;
 	eventSource = new EventSource('/events');
 	// I had trouble in some browser when I used eventSource.onmessage
 	eventSource['onmessage'] = onMessage;

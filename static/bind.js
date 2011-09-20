@@ -128,6 +128,10 @@ module.define('bind', function (require, exports) {
         return new Binding(new ElementValueEndpoint(element));
     };
 
+    exports.fromElementAttributes = function (element, key) {
+        return new Binding(new ElementAttributeEndpoint(element, key));
+    };
+
     exports.fromLocalStorageKey = function (key) {
         return new Binding(new LocalStorageKeyEndpoint(key));
     };
@@ -202,6 +206,10 @@ module.define('bind', function (require, exports) {
 
     Binding.prototype.toElementValue = function (element) {
         this._finishCreation(new ElementValueEndpoint(element));
+    };
+
+    Binding.prototype.toElementAttribute = function (element, key) {
+        this._finishCreation(new ElementAttributeEndpoint(element, key));
     };
 
     Binding.prototype.toLocalStorageKey = function (key) {
@@ -290,6 +298,31 @@ module.define('bind', function (require, exports) {
             return undefined;
         }
         return (arguments.length > 0) ? (element.value = newValue) : element.value;
+    };
+
+    function ElementAttributeEndpoint(element, key) {
+        Endpoint.call(this);
+        this.element = element;
+        this.key = key;
+    }
+
+    ElementAttributeEndpoint.prototype = u.create(Endpoint.prototype);
+
+    ElementAttributeEndpoint.prototype.listenToTarget = function () {
+        // not supported
+    };
+
+    ElementAttributeEndpoint.prototype.stopListeningToTarget = function () {
+        // not supported
+    };
+
+    ElementAttributeEndpoint.prototype.value = function (newValue) {
+        var element = this.element, undefined;
+        if (element.isDestroyed) {
+            this.targetIsDestroyed = true;
+            return undefined;
+        }
+        return (arguments.length > 0) ? (element[this.key] = newValue) : element[this.key];
     };
 
     function LocalStorageKeyEndpoint(key) {

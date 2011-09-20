@@ -78,8 +78,7 @@ module.define('keyboards', function (require, exports) {
             y: this.y,
             width: props.width || kKeyWidth,
             height: props.height || kKeyHeight,
-            name: name,
-            label: props.label || this.labels[name] || name
+            name: name
         };
         this._keys.push(keyDefinition);
         this.x += keyDefinition.width;
@@ -276,6 +275,10 @@ module.define('keyboards', function (require, exports) {
 
     exports.humanNameForLabelSetId = function (id) {
 	return labelSets[id].humanName;
+    };
+
+    exports.labelSetForId = function (id) {
+        return labelSets[id].labels;
     };
 
 });

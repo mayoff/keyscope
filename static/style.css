@@ -110,6 +110,26 @@
     box-shadow: inset 0px 1px 1px #444;
 }
 
+.keyToolTip {
+    display: none;
+    position: absolute;
+    top: 105%;
+    left: -10%;
+    width: auto;
+    height: auto;
+    text-align: left;
+    white-space: nowrap;
+    background: hsl(60, 100%, 90%);
+    border: 1px solid hsl(60, 80%, 70%);
+    padding: .5em;
+    font: 14px Arial;
+    z-index: 2;
+}
+
+.key:hover .keyToolTip {
+    display: block;
+}
+
 #fingers {
     position: relative;
     height: 300px;

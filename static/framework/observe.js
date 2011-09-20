@@ -23,7 +23,7 @@ module.define('framework/observe', function (require, exports) {
     };
 
     exports.stopObservingPath = function (subject, path, method, observer) {
-        pat = (path instanceof Array) ? path : path.split('.');
+        path = (path instanceof Array) ? path : path.split('.');
         stopObservingPathStartingAtIndex(subject, path, method, observer, 0);
     };
 
@@ -51,9 +51,10 @@ module.define('framework/observe', function (require, exports) {
                 return;
         }
         observers.push({
+            subject: subject,
+            path: path,
             method: method,
             observer: observer,
-            path: path,
             pathIndex: pathIndex
         });
     }
@@ -140,7 +141,7 @@ module.define('framework/observe', function (require, exports) {
         for (var i = o.pathIndex; i < l && changedObject !== null && changedObject !== undefined; ++i) {
             changedObject = changedObject[path[i]];
         }
-        o.method.call(o.observer, changedObject);
+        o.method.call(o.observer, changedObject, o);
     }
 
     function isDataDescriptor(desc) {

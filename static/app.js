@@ -85,9 +85,6 @@ module.define('app', function (require, exports) {
             var action = message.action;
             var key = this.model.keyForName(message.key);
             key.state = action;
-            if (action === 'down') {
-                ++key.pressCount;
-            }
         }
 
     };

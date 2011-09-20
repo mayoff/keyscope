@@ -2,9 +2,24 @@
 
 module.define('framework/observe', function (require, exports) {
 
+    exports.kAugmentDestroyMethod = {};
+
     exports.observePath = function (subject, path, method, observer) {
         path = (path instanceof Array) ? path.slice(0) : path.split('.');
         observePathStartingAtIndex(subject, path, method, observer, 0);
+        for (var i = 4, l = arguments.length; i < l; ++i) {
+            switch (arguments[i]) {
+                case exports.kAugmentDestroyMethod:
+                    var oldDestroy = observer.destroy;
+                    observer.destroy = function () {
+                        exports.stopObservingPath(subject, path, method, observer);
+                        return oldDestroy.apply(this, arguments);
+                    };
+                    break;
+                default:
+                    throw new Error('unknown option passed to observePath');
+            }
+        }
     };
 
     exports.stopObservingPath = function (subject, path, method, observer) {

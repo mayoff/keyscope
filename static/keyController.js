@@ -27,16 +27,14 @@ module.define('keyController', function (require, exports) {
         domBinder.bind(node, this);
         parentNode.appendChild(node);
 
-        observe.observePath(this.key, 'state', this.keyStateDidChange, this);
-        observe.observePath(this.key, 'pressCount', this.pressCountDidChange, this);
+        observe.observePath(this.key, 'state', this.keyStateDidChange, this, observe.kAugmentDestroyMethod);
+        observe.observePath(this.key, 'pressCount', this.pressCountDidChange, this, observe.kAugmentDestroyMethod);
         this.pressCountDidChange();
     }
 
     KeyController.prototype.destroy = function () {
         this.node.parentNode.removeChild(this.node);
         this.node.isDestroyed = true;
-        observe.stopObservingPath(this.key, 'state', this.keyStateDidChange, this);
-        observe.stopObservingPath(this.key, 'pressCount', this.pressCount, this);
         this.isDestroyed = true;
     };
 

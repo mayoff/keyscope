@@ -8,12 +8,19 @@ module.define('model', function (require, exports) {
 
     var kLayoutIdKey = 'KeyScope_layoutId';
     var kLabelSetIdKey = 'KeyScope_labelSetId';
+    var kKeyPressCountKey = 'KeyScope_keyPressCounts';
 
     var Model = exports.Model = function () {
+        this.keyPressCounts = JSON.parse(localStorage[kKeyPressCountKey] || '{}');
+
         this.keys = {};
         this.maxRank = 0;
         this.layoutId = localStorage[kLayoutIdKey] || 'apple-us-with-keypad';
         this.labelSetId = localStorage[kLabelSetIdKey] || 'qwerty';
+
+        for (var name in this.keyPressCounts)
+            this.keyForName(name);
+        this.computeRanks();
 
         bind.fromObjectPath(this, 'layoutId').toLocalStorageKey(kLayoutIdKey);
         bind.fromObjectPath(this, 'labelSetId').toLocalStorageKey(kLabelSetIdKey);
@@ -26,10 +33,11 @@ module.define('model', function (require, exports) {
             this.keys[name] = key = {
                 name: name,
                 state: 'up',
-                pressCount: 0,
+                pressCount: this.keyPressCounts[name] || 0,
                 rank: 0
             };
             observe.observePath(key, 'state', this.keyStateDidChange, this);
+            observe.observePath(key, 'pressCount', this.keyPressCountDidChange, this);
         }
         return key;
     };
@@ -40,6 +48,12 @@ module.define('model', function (require, exports) {
             ++key.pressCount;
             this.computeRanks();
         }
+    };
+
+    Model.prototype.keyPressCountDidChange = function (_, o) {
+        var key = o.subject;
+        this.keyPressCounts[key.name] = key.pressCount;
+        this.saveKeyPressCounts();
     };
 
     Model.prototype.computeRanks = function () {
@@ -60,6 +74,10 @@ module.define('model', function (require, exports) {
             var key = keys[name];
             key.rank = key.pressCount ? ++rank : 0;
         }, this);
+    };
+
+    Model.prototype.saveKeyPressCounts = function () {
+        localStorage[kKeyPressCountKey] = JSON.stringify(this.keyPressCounts);
     };
 
 });

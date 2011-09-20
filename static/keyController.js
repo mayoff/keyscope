@@ -23,7 +23,7 @@ module.define('keyController', function (require, exports) {
         style.top = keyDescription.y + 'mm';
         style.width = keyDescription.width + 'mm';
         style.height = keyDescription.height + 'mm';
-        node.innerHTML = format('<div data-bind-innerhtml="label">{name}</div><div class="keyToolTip" data-bind-innerhtml="toolTipHtml"></div>', this);
+        node.innerHTML = format('<div class="keylabel" data-bind-innerhtml="label">{name}</div><div class="keyToolTip" data-bind-innerhtml="toolTipHtml"></div>', this);
         domBinder.bind(node, this);
         parentNode.appendChild(node);
 

@@ -33,6 +33,17 @@
 
     background-color: white;
 
+    font: 12px/15px Verdana, sans-serif;
+    text-align: center;
+}
+
+.keylabel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
     display: -moz-box;
     -moz-box-align: center;
     -moz-box-pack: center;
@@ -40,9 +51,6 @@
     display: -webkit-box;
     -webkit-box-align: center;
     -webkit-box-pack: center;
-
-    font: 12px/15px Verdana, sans-serif;
-    text-align: center;
 }
 
 .keylabelSmaller {

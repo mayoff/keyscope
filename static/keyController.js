@@ -66,6 +66,7 @@ module.define('keyController', function (require, exports) {
         observe.observePath(this.key, 'state', this.keyStateDidChange, this, observe.kAugmentDestroyMethod);
         observe.observePath(this.key, 'rank', this.rankDidChange, this, observe.kAugmentDestroyMethod);
         observe.observePath(app.model, 'maxRank', this.rankDidChange, this, observe.kAugmentDestroyMethod);
+        observe.observePath(this, 'label', this.labelDidChange, this, observe.kAugmentDestroyMethod);
         this.rankDidChange();
     }
 
@@ -82,6 +83,18 @@ module.define('keyController', function (require, exports) {
     KeyController.prototype.rankDidChange = function () {
         var r = this.key.rank, mr = this.model.maxRank, l = gradient.length - 1;
         this.node.style.backgroundColor = gradient[Math.round(l * r / mr)];
+    };
+
+    KeyController.prototype.labelDidChange = function () {
+        var labelNode = this.node.firstChange, labelNode$ = $(labelNode);
+
+        function onTransitionEnd() {
+            labelNode$.removeClass('labelChanged');
+            labelNode.removeEventHandler('webkitTransitionEnd', onTransitionEnd, false);
+        }
+
+        labelNode.addEventHandler('webkitTransitionEnd', onTransitionEnd, false);
+        labelNode$.addClass('labelChanged');
     };
 
 });

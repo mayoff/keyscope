@@ -11,6 +11,7 @@ module.define('app', function (require, exports) {
     var app = {
         model: null,
         keyControllers: {},
+        fingerChartController: null,
 
         init: function () {
             this.model = new (require('model').Model)();
@@ -52,6 +53,9 @@ module.define('app', function (require, exports) {
             var layout = keyboards.keyboardForId(app.model.layoutId);
             if (!layout)
                 return;
+            if (this.fingerChartController)
+                this.fingerChartController.destroy();
+            this.fingerChartController = require('fingerChartController').make($('#fingers')[0]);
             var keyControllers = app.keyControllers;
             for (var name in keyControllers)
                 keyControllers[name].destroy();
@@ -59,12 +63,14 @@ module.define('app', function (require, exports) {
             var keyboard$ = $('#keyboard'), keyboardNode = keyboard$[0];
             keyboard$.width(layout.width + 'mm').height(layout.height + 'mm');
             layout.keys.forEach(function (keyDescription) {
+                this.fingerChartController.addKey(keyDescription, this.model.keyForName(keyDescription.name));
                 keyControllers[keyDescription.name] = keyController.make({
                     keyDescription: keyDescription,
                     app: this,
                     parentNode: keyboardNode
                 });
             }, this);
+            this.fingerChartController.render();
         },
 
         labelSetIdDidChange: function () {

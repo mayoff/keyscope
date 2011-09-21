@@ -26,8 +26,6 @@ module.define('keyboards', function (require, exports) {
         this.x = 0;
         this.y = 0;
         this._keys = [];
-	this._fingerForKey = {};
-	this._keysForFinger = {};
     };
 
     exports.KeyboardMaker = KeyboardMaker;
@@ -45,9 +43,7 @@ module.define('keyboards', function (require, exports) {
         return {
             width: w,
             height: h,
-            keys: this._keys,
-	    keysForFinger: this._keysForFinger,
-	    fingerForKey: this._fingerForKey
+            keys: this._keys
         };
     };
 
@@ -113,13 +109,16 @@ module.define('keyboards', function (require, exports) {
     };
 
     KeyboardMaker.prototype.fingers = function (keysForFinger) {
+        var fingerForKey = {};
 	for (var finger in keysForFinger) {
-	    var keys = keysForFinger[finger].split(' ');
-	    this._keysForFinger[finger] = keys;
-	    keys.forEach(function (key) {
-		this._fingerForKey[key] = finger;
+	    keysForFinger[finger].split(' ').forEach(function (key) {
+	        fingerForKey[key] = finger;
 	    }, this);
 	}
+	this._keys.forEach(function (key) {
+	    if (key.name in fingerForKey)
+	        key.finger = fingerForKey[key.name];
+	});
     };
 
     ////////////////////////////////////////////////////////////////
@@ -235,6 +234,8 @@ module.define('keyboards', function (require, exports) {
     labelSets.dvorak = {
 	humanName: 'Dvorak',
 	labels: $.extend({}, labelSets.qwerty.labels, {
+	    Minus: p('{['),
+	    Equal: p('}]'),
 	    Q: p('"\''),
 	    W: p('<,'),
 	    E: p('>.'),

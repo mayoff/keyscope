@@ -59,24 +59,24 @@ module.define('framework/utilities', function (require, exports) {
     };
 
     /**
-        ### format
+    ### format
 
-            format(aString, anObject) -> aFormattedString
+    > `format(aString, anObject)` &rarr; `aFormattedString`
 
-        I replace placeholders in `aString` using properties of `anObject`.  I recognize these placeholders:<table>
-        <tr><th>Placeholder</th><th>Replacement</th></tr>
-        <tr><td>{{</td><td>{</td></tr>
-        <tr><td>}}</td><td>}</td></tr>
-        <tr><td>{key}</td><td>anObject[key]</td></tr>
-        <tr><td>{key1.key2.key3...}</td><td>anObject[key1][key2][key3]...</td></tr>
-        </table>
+    I replace placeholders in `aString` using properties of `anObject`.  I recognize these placeholders:<table>
+    <tr><th>Placeholder</th><th>Replacement</th></tr>
+    <tr><td>{{</td><td>{</td></tr>
+    <tr><td>}}</td><td>}</td></tr>
+    <tr><td>{key}</td><td>anObject[key]</td></tr>
+    <tr><td>{key1.key2.key3...}</td><td>anObject[key1][key2][key3]...</td></tr>
+    </table>
 
-        A *key* is an identifier or a positive integer.  Examples:
+    A *key* is an identifier or a positive integer.  Examples:
 
-            'Hello, {name}!'.format({name:'Delia'}) === 'Hello, Delia!'
-            '({x},{y})'.format(new WebKitPoint(7, 10)) === '(7,10)'
-            'Left brace={{ Right brace=}}'.format() === 'Left brace={ Right brace=}'
-            '{1.2}'.format('abcde\nfghi\njklmn'.split(/\n/)) === 'h'
+        'Hello, {name}!'.format({name:'Delia'}) === 'Hello, Delia!'
+        '({x},{y})'.format(new WebKitPoint(7, 10)) === '(7,10)'
+        'Left brace={{ Right brace=}}'.format() === 'Left brace={ Right brace=}'
+        '{1.2}'.format('abcde\nfghi\njklmn'.split(/\n/)) === 'h'
     */
 
     var re = /(\{\{)|(\}\})|(?:\{([0-9]+|[A-Za-z_$][A-Za-z_$0-9]*)\})|(?:\{((?:[0-9]+\.|[A-Za-z_$][A-Za-z_$0-9]*\.)+(?:[0-9]+|[A-Za-z_$][A-Za-z_$0-9]*))\})/g;
@@ -93,6 +93,41 @@ module.define('framework/utilities', function (require, exports) {
         return format.replace(re, function (_, leftBrace, rightBrace, key, path) {
             return leftBrace ? '{' : rightBrace ? '}' : key ? object[key] : valueAtPathInObject(path, object);
         });
+    };
+
+    /**
+    ### removePrefix
+
+    > `removePrefix(string, prefix)` &rarr; `strippedString`
+
+    If `string` starts with `prefix`, I return the substring of `string` with `prefix` removed.  Otherwise I just return `string`.
+    */
+
+    exports.removePrefix = function (s, p) {
+        var pl = p.length;
+        return (s.length >= pl && s.substr(0, pl) === p)
+            ? s.substr(pl)
+            : s;
+    };
+
+    /**
+    ### forEachOwnProperty
+
+    > `forEachOwnProperty(object, callback, thisObject)`
+
+    I call `callback` as a method of `thisObject` once for each own-property of `object`.  I call `callback` like this:
+
+        callback.call(thisObject, key, value, object);
+
+    where `key` is a key of some own-property of `object` and `value` is the corresponding value.  The order in which keys are visited, and the effects of modifying `object`'s keys while I am running, are the same as those of the `for-in` statement.
+    */
+
+    exports.forEachOwnProperty = function (object, callback, thisObject) {
+        var hop = Object.prototype.hasOwnProperty;
+        for (var k in object) {
+            if (hop.call(object, k))
+                callback.call(thisObject, k, object[k], object);
+        }
     };
 
 });

@@ -68,6 +68,14 @@
     -webkit-transition: -webkit-transform 500ms ease-in-out;
     -webkit-transform: rotateY(359.9deg);
     -webkit-perspective: 200;
+
+    -moz-transition: -moz-transform 500ms ease-in-out;
+    -moz-transform: rotateY(359.9deg);
+    -moz-perspective: 200;
+
+    transition: transform 500ms ease-in-out;
+    transform: rotateY(359.9deg);
+    perspective: 200;
 }
 
 .keylabelFKey {

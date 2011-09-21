@@ -99,11 +99,17 @@ module.define('keyController', function (require, exports) {
             console.log(name + ' transition end');
             node$.removeClass('labelChanged');
             node.removeEventListener('webkitTransitionEnd', onTransitionEnd, false);
+            node.removeEventListener('mozTransitionEnd', onTransitionEnd, false);
+            node.removeEventListener('transitionEnd', onTransitionEnd, false);
         }
 
         console.log(name + ' transition start');
         node.addEventListener('webkitTransitionEnd', onTransitionEnd, false);
+        node.addEventListener('mozTransitionEnd', onTransitionEnd, false);
+        node.addEventListener('transitionEnd', onTransitionEnd, false);
         node.style.webkitTransitionDelay = Math.floor(Math.random() * 400) + 'ms';
+        node.style.mozTransitionDelay = Math.floor(Math.random() * 400) + 'ms';
+        node.style.transitionDelay = Math.floor(Math.random() * 400) + 'ms';
         node$.addClass('labelChanged');
     };
 

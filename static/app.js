@@ -12,10 +12,6 @@ module.define('app', function (require, exports) {
         model: null,
         keyControllers: {},
 
-        resetKeyPressCounts: function () {
-            console.log('resetKeyPressCounts');
-        },
-
         init: function () {
             this.model = new (require('model').Model)();
             this.initLayoutSelectElement();

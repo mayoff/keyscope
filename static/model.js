@@ -42,6 +42,13 @@ module.define('model', function (require, exports) {
         return key;
     };
 
+    Model.prototype.resetKeyPressCounts = function () {
+        var keys = this.keys;
+        for (var name in keys)
+            keys[name].pressCount = 0;
+        this.computeRanks();
+    };
+
     Model.prototype.keyStateDidChange = function (_, o) {
         var key = o.subject;
         if (key.state === 'down') {

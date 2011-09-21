@@ -152,7 +152,7 @@ module.define('keyController', function (require, exports) {
 
     KeyController.prototype.rankDidChange = function () {
         var r = this.key.rank, mr = this.model.maxRank, l = gradient.length - 1;
-        var color = gradient[Math.round(l * r / mr)];
+        var color = gradient[Math.round(l * r / Math.max(mr, 1))];
         this.keylabelFront.style.backgroundColor = color;
         this.keylabelBack.style.backgroundColor = color;
     };

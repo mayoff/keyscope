@@ -41,9 +41,9 @@ module.define('keyController', function (require, exports) {
 
     function KeyController(keyDescription, app, parentNode) {
         this.name = keyDescription.name;
-        this.label = this.name;
         this.model = app.model;
         this.key = app.model.keyForName(this.name);
+        this.didSeeFirstLabel = false;
 
         var node = this.node = document.createElement('div');
         this.node$ = $(node);
@@ -60,6 +60,8 @@ module.define('keyController', function (require, exports) {
                 'Times pressed: <span data-bind-innerhtml="key.pressCount"></span><br>' +
                 'Rank: <span data-bind-innerhtml="key.rank"></span>/<span data-bind-innerhtml="model.maxRank"></span>' +
             '</div>', this);
+        this.labelNode = node.firstChild;
+        this.labelNode$ = $(this.labelNode);
         domBinder.bind(node, this);
         parentNode.appendChild(node);
 
@@ -82,19 +84,27 @@ module.define('keyController', function (require, exports) {
 
     KeyController.prototype.rankDidChange = function () {
         var r = this.key.rank, mr = this.model.maxRank, l = gradient.length - 1;
-        this.node.style.backgroundColor = gradient[Math.round(l * r / mr)];
+        this.labelNode.style.backgroundColor = gradient[Math.round(l * r / mr)];
     };
 
     KeyController.prototype.labelDidChange = function () {
-        var labelNode = this.node.firstChange, labelNode$ = $(labelNode);
-
-        function onTransitionEnd() {
-            labelNode$.removeClass('labelChanged');
-            labelNode.removeEventHandler('webkitTransitionEnd', onTransitionEnd, false);
+        if (!this.didSeeFirstLabel) {
+            this.didSeeFirstLabel = true;
+            return;
         }
 
-        labelNode.addEventHandler('webkitTransitionEnd', onTransitionEnd, false);
-        labelNode$.addClass('labelChanged');
+        var node = this.labelNode, node$ = this.labelNode$, name = this.name;
+
+        function onTransitionEnd() {
+            console.log(name + ' transition end');
+            node$.removeClass('labelChanged');
+            node.removeEventListener('webkitTransitionEnd', onTransitionEnd, false);
+        }
+
+        console.log(name + ' transition start');
+        node.addEventListener('webkitTransitionEnd', onTransitionEnd, false);
+        node.style.webkitTransitionDelay = Math.floor(Math.random() * 400) + 'ms';
+        node$.addClass('labelChanged');
     };
 
 });

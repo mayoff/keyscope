@@ -31,8 +31,6 @@
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
 
-    background-color: white;
-
     font: 12px/15px Verdana, sans-serif;
     text-align: center;
 }
@@ -43,6 +41,10 @@
     left: 0;
     bottom: 0;
     right: 0;
+
+    border-radius: 4px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
 
     display: -moz-box;
     -moz-box-align: center;
@@ -63,6 +65,9 @@
 
 .labelChanged {
     /* xxx */
+    -webkit-transition: -webkit-transform 500ms ease-in-out;
+    -webkit-transform: rotateY(359.9deg);
+    -webkit-perspective: 200;
 }
 
 .keylabelFKey {

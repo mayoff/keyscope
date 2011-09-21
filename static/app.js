@@ -75,9 +75,7 @@ module.define('app', function (require, exports) {
             var labelSet = keyboards.labelSetForId(app.model.labelSetId);
             var keyControllers = this.keyControllers;
             for (var name in keyControllers) {
-                if (name in keyControllers) {
-                    keyControllers[name].label = (name in labelSet) ? labelSet[name] : name;
-                }
+                keyControllers[name].label = (name in labelSet) ? labelSet[name] : name;
             }
         },
 

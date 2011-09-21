@@ -79,8 +79,8 @@ module.define('keyController', function (require, exports) {
         }
         domBinder.bind(node, this);
         parentNode.appendChild(node);
-        var self = this;
-        window.setTimeout(function () { self.node$.addClass('keylabelShow' + self.sideShown); }, 0);
+        parentNode.offsetHeight; // Force layout so the transition happens
+        this.node$.addClass('keylabelShow' + this.sideShown);
 
         observe.observePath(this.key, 'state', this.keyStateDidChange, this, observe.kAugmentDestroyMethod);
         observe.observePath(this.key, 'rank', this.rankDidChange, this, observe.kAugmentDestroyMethod);

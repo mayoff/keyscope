@@ -56,6 +56,7 @@ module.define('keyController', function (require, exports) {
         this.node$ = $(node);
         node.className = 'keyParent keyup';
         var style = node.style;
+        style.zIndex = 1000 - Math.round(keyDescription.y);
         style.left = keyDescription.x + 'mm';
         style.top = keyDescription.y + 'mm';
         style.width = keyDescription.width + 'mm';

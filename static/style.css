@@ -167,10 +167,9 @@
     border: 1px solid hsl(60, 80%, 70%);
     padding: .5em;
     font: 14px Arial;
-    z-index: 2;
 }
 
-.key:hover .keyToolTip {
+.keyParent:hover .keyToolTip {
     display: block;
 }
 

@@ -12,6 +12,7 @@ module.define('app', function (require, exports) {
         model: null,
         keyControllers: {},
         fingerChartController: null,
+        currentKey: null,
 
         init: function () {
             this.model = new (require('model').Model)();

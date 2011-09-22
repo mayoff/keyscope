@@ -160,23 +160,46 @@ BODY {
     box-shadow: inset 0px 1px 1px #444;
 }
 
-.keyToolTip {
-    display: none;
+#keyboardToolTip {
     position: absolute;
-    top: 105%;
-    left: -10%;
-    width: auto;
-    height: auto;
-    text-align: left;
-    white-space: nowrap;
-    background: hsl(60, 100%, 90%);
-    border: 1px solid hsl(60, 80%, 70%);
-    padding: .5em;
-    font-size: 14px;
+    top: 0px;
+    left: 0px;
+    z-index: 20;
+    -webkit-transform: translate(200px, 100px);
+    -moz-transform: translate(200px, 100px);
+    transform: translate(200px, 100px);
 }
 
-.keyParent:hover .keyToolTip {
-    display: block;
+#keyboardToolTipPointer {
+    position: relative;
+    left: 10px;
+    top: 1px;
+    width: 0;
+    height: 0;
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    border-bottom: 11px solid hsl(60, 80%, 60%);
+}
+
+#keyboardToolTipPointerInner {
+    position: relative;
+    left: -10px;
+    top: 1px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid hsl(60, 100%, 90%);
+}
+
+#keyboardToolTipText {
+    width: intrinsic;
+    min-width: 180px;
+    height: intrinsic;
+    background-color: hsl(60, 100%, 90%);
+    border: 1px solid hsl(60, 80%, 60%);
+    border-radius: 7px 7px 7px 7px;
+    padding: .5em;
 }
 
 #fingers {

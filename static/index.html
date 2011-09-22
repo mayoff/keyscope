@@ -8,6 +8,14 @@
 <select id='keyboardSelect' data-bind-value='model.layoutId'></select>
 <select id='labelSetSelect' data-bind-value='model.labelSetId'></select>
 </div>
+<div id='keyboardToolTip'>
+    <div id='keyboardToolTipPointer'><div id='keyboardToolTipPointerInner'></div></div>
+    <div id='keyboardToolTipText'>
+        Name: <span data-bind-innerhtml='currentKey.name'></span><br>
+        Times pressed: <span data-bind-innerhtml='currentKey.pressCount'></span><br>
+        Rank: <span data-bind-innerhtml='currentKey.rank'></span>/<span data-bind-innerhtml='model.maxRank'></span>
+    </div>
+</div>
 <div id='keyboardFrame'><div id='keyboard'></div></div>
 <div id='fingers'
     ><div id='finger_L5' class='finger'></div

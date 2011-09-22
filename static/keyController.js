@@ -47,7 +47,9 @@ module.define('keyController', function (require, exports) {
     };
 
     function KeyController(keyDescription, app, parentNode) {
+        var self = this;
         this.name = keyDescription.name;
+        this.app = app;
         this.model = app.model;
         this.key = app.model.keyForName(this.name);
         this.sideShown = 'Front';
@@ -56,19 +58,13 @@ module.define('keyController', function (require, exports) {
         this.node$ = $(node);
         node.className = 'keyParent keyup';
         var style = node.style;
-        style.zIndex = 1000 - Math.round(keyDescription.y);
         style.left = keyDescription.x + 'mm';
         style.top = keyDescription.y + 'mm';
         style.width = keyDescription.width + 'mm';
         style.height = keyDescription.height + 'mm';
         node.innerHTML =
             '<div class="keylabel keylabelFront" data-bind-innerhtml="labelFront"></div>' +
-            '<div class="keylabel keylabelBack" data-bind-innerhtml="labelBack"></div>' +
-            '<div class="keyToolTip">' +
-                'Name: <span data-bind-innerhtml="name"></span><br>' +
-                'Times pressed: <span data-bind-innerhtml="key.pressCount"></span><br>' +
-                'Rank: <span data-bind-innerhtml="key.rank"></span>/<span data-bind-innerhtml="model.maxRank"></span>' +
-            '</div>';
+            '<div class="keylabel keylabelBack" data-bind-innerhtml="labelBack"></div>';
         this.keylabelFront = node.querySelector('.keylabelFront');
         this.keylabelBack = node.querySelector('.keylabelBack');
         if (kTransitionDelayKey) {
@@ -78,6 +74,8 @@ module.define('keyController', function (require, exports) {
         } else {
             this['keylabel' + this.sideHidden].style.display = 'none';
         }
+        node.addEventListener('mouseover', function (e) { self.onMouseOver(e); }, false);
+        node.addEventListener('mouseout', function (e) { self.onMouseOut(e); }, false);
         domBinder.bind(node, this);
         parentNode.appendChild(node);
         parentNode.offsetHeight; // Force layout so the transition happens
@@ -100,6 +98,14 @@ module.define('keyController', function (require, exports) {
         this.node.parentNode.removeChild(this.node);
         this.node.isDestroyed = true;
         this.isDestroyed = true;
+    };
+
+    KeyController.prototype.onMouseOver = function (event) {
+        this.app.currentKey = this.key;
+    };
+
+    KeyController.prototype.onMouseOut = function (event) {
+        this.app.currentKey = null;
     };
 
     KeyController.prototype.setLabel = function (newLabel) {

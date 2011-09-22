@@ -189,6 +189,11 @@ BODY {
     -webkit-box-orient: horizontal;
     -webkit-box-align: end;
     -webkit-box-pack: justify;
+
+    display: -moz-box;
+    -moz-box-orient: horizontal;
+    -moz-box-align: end;
+    -moz-box-pack: justify;
 }
 
 .finger {
@@ -201,6 +206,11 @@ BODY {
     -webkit-box-orient: vertical;
     -webkit-box-pack: end;
     -webkit-box-direction: reverse;
+
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-pack: end;
+    -moz-box-direction: reverse;
 }
 
 .fingerKey {

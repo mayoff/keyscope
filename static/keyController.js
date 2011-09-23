@@ -101,11 +101,23 @@ module.define('keyController', function (require, exports) {
     };
 
     KeyController.prototype.onMouseOver = function (event) {
-        this.app.currentKey = this.key;
+        /* XXX This needs to be rewritten to receive mousemove events on keyboardFrame and check for a key with document.elementFromPoint. If keyboardToolTip  contains the mouse, hide keyboardToolTip and call document.elementFromPoint again, then reshow keyboardToolTip.
+        */
+        var cr = this.node.getBoundingClientRect();
+        var body = document.body;
+        var w = cr.right - cr.left;
+        var x = Math.round(body.scrollLeft + cr.left + w / 2);
+        var y = body.scrollTop + cr.bottom;
+        this.app.keyContainingMouse = {
+            model: this.key,
+            anchor: [ x, y ]
+        };
     };
 
     KeyController.prototype.onMouseOut = function (event) {
-        this.app.currentKey = null;
+        if (this.app.keyContainingMouse && this.app.keyContainingMouse.model === this.key) {
+            this.app.keyContainingMouse.model = null;
+        }
     };
 
     KeyController.prototype.setLabel = function (newLabel) {

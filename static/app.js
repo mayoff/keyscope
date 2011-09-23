@@ -7,12 +7,15 @@ module.define('app', function (require, exports) {
     var keyboards = require('keyboards');
     var keyController = require('keyController');
     var sniffer = require('sniffer');
+    var cssTransition = require('framework/cssTransition');
+    var keyboardToolTipNode$;
 
     var app = {
         model: null,
         keyControllers: {},
         fingerChartController: null,
-        currentKey: null,
+        keyContainingMouse: null,
+        keyboardToolTipKeyModel: null,
 
         init: function () {
             this.model = new (require('model').Model)();
@@ -24,6 +27,8 @@ module.define('app', function (require, exports) {
             this.layoutIdDidChange();
             this.labelSetIdDidChange();
             sniffer.runWithCallback(this.onSnifferMessage, this);
+
+            this.initKeyboardToolTip();
         },
 
         initLayoutSelectElement: function () {
@@ -79,6 +84,26 @@ module.define('app', function (require, exports) {
             var keyControllers = this.keyControllers;
             for (var name in keyControllers) {
                 keyControllers[name].setLabel((name in labelSet) ? labelSet[name] : name);
+            }
+        },
+
+        initKeyboardToolTip: function () {
+            keyboardToolTipNode$ = $('#keyboardToolTip');
+            observePath(this, 'keyContainingMouse.model', this.keyContainingMouseDidChange, this);
+        },
+
+        keyContainingMouseDidChange: function () {
+            console.log('keyContainingMouse', this.keyContainingMouse && this.keyContainingMouse.model && this.keyContainingMouse.model.name);
+            var style = keyboardToolTipNode$[0].style;
+            if (this.keyContainingMouse.model === null) {
+                keyboardToolTipNode$.removeClass('keyboardToolTipVisible') .addClass('keyboardToolTipHidden');
+            } else {
+                this.keyboardToolTipKeyModel = this.keyContainingMouse.model;
+                keyboardToolTipNode$.addClass('keyboardToolTipVisible') .removeClass('keyboardToolTipHidden');
+                var point = [
+                    this.keyContainingMouse.anchor[0] - 21,
+                    this.keyContainingMouse.anchor[1] ];
+                style.webkitTransform = style.MozTransform = style.transform = format('translate({0}px,{1}px)', point);
             }
         },
 

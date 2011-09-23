@@ -8,12 +8,12 @@
 <select id='keyboardSelect' data-bind-value='model.layoutId'></select>
 <select id='labelSetSelect' data-bind-value='model.labelSetId'></select>
 </div>
-<div id='keyboardToolTip'>
+<div id='keyboardToolTip' class='keyboardToolTipHidden'>
     <div id='keyboardToolTipPointer'><div id='keyboardToolTipPointerInner'></div></div>
     <div id='keyboardToolTipText'>
-        Name: <span data-bind-innerhtml='currentKey.name'></span><br>
-        Times pressed: <span data-bind-innerhtml='currentKey.pressCount'></span><br>
-        Rank: <span data-bind-innerhtml='currentKey.rank'></span>/<span data-bind-innerhtml='model.maxRank'></span>
+        Name: <span data-bind-innerhtml='keyboardToolTipKeyModel.name'></span><br>
+        Times pressed: <span data-bind-innerhtml='keyboardToolTipKeyModel.pressCount'></span><br>
+        Rank: <span data-bind-innerhtml='keyboardToolTipKeyModel.rank'></span>/<span data-bind-innerhtml='model.maxRank'></span>
     </div>
 </div>
 <div id='keyboardFrame'><div id='keyboard'></div></div>
@@ -35,6 +35,7 @@
 <script src='framework/observe.js'></script>
 <script src='framework/bind.js'></script>
 <script src='framework/domBinder.js'></script>
+<script src='framework/cssTransition.js'></script>
 <script src='model.js'></script>
 <script src='keyboards.js'></script>
 <script src='keyboards/apple-us-with-keypad.js'></script>

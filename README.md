@@ -18,7 +18,7 @@
 
 After you've typed for a while, the KeyScope window looks like this:
 
-![KeyScope screen shot](screenshot.png)
+![KeyScope screen shot](keyscope/raw/master/screenshot.png)
 
 The top part of the window shows a keyboard. KeyScope tracks how often you press each key; the reddest keys are the ones you press the most often. The bluest are the ones you pressed the least often. The white keys are keys you haven't pressed (while KeyScope was recording). You can mouse over each key to see the exact number of times KeyScope has recorded a press event for that key. The keyboard view scrolls left/right if the keyboard doesn't fit in the window. On Mac OS X Lion, the horizontal scroll bar gets hidden automatically it WebKit-based browser. Grumble.
 

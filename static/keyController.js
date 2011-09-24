@@ -77,7 +77,10 @@ module.define('keyController', function (require, exports) {
         }
         domBinder.bind(node, this);
         parentNode.appendChild(node);
-        parentNode.offsetHeight; // Force layout so the transition happens
+
+        var cr = node.getBoundingClientRect();
+        this.toolTipAnchor = [ window.pageXOffset + Math.round(cr.left + cr.width/2), window.pageYOffset + cr.bottom ];
+
         this.node$.addClass('keylabelShow' + this.sideShown);
 
         observe.observePath(this.key, 'state', this.keyStateDidChange, this, observe.kAugmentDestroyMethod);
@@ -102,19 +105,9 @@ module.define('keyController', function (require, exports) {
     KeyController.prototype.mouseDidMoveInside = function () {
         var kcm = this.app.keyContainingMouse;
         if (kcm.model !== this.key) {
-            kcm.anchor = this.toolTipAnchor();
+            kcm.anchor = this.toolTipAnchor;
             kcm.model = this.key;
         }
-    };
-
-    KeyController.prototype.toolTipAnchor = function () {
-        if (this._toolTipAnchor)
-            return this._toolTipAnchor;
-        var cr = this.node.getBoundingClientRect();
-        var w = cr.right - cr.left;
-        var x = Math.round(window.pageXOffset + cr.left + w / 2);
-        var y = window.pageYOffset + cr.bottom;
-        return this._toolTipAnchor = [ x, y ];
     };
 
     KeyController.prototype.setLabel = function (newLabel) {

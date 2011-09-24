@@ -6,7 +6,7 @@
 
 0.  KeyScope only runs on Mac OS X (for now). I've tested it on Lion and Snow Leopard. If you know how to write a keyboard sniffer for some other OS, feel free to send me a pull request.
 
-1.  Run `keyscope.py`.
+1.  Run `keyscope.py`.  You'll get some warnings if you're on Snow Leopard.  Ignore them.
 
 2.  If you get a popup window telling you that System Events is trying to unlock Universal Access preferences, enter your password. This turns on the "Enable access for assistive devices" option in the Universal Access pane of your System Preferences. It must be enabled for KeyScope to sniff your keyboard. You won't get this popup window if that option is already enabled.
 

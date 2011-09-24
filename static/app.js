@@ -8,6 +8,7 @@ module.define('app', function (require, exports) {
     var keyController = require('keyController');
     var sniffer = require('sniffer');
     var cssTransition = require('framework/cssTransition');
+    var keyboardScroller;
     var keyboardNode$, keyboardNode;
     var keyboardToolTipNode, keyboardToolTipNode$;
 
@@ -70,6 +71,7 @@ module.define('app', function (require, exports) {
             for (var name in keyControllers)
                 keyControllers[name].destroy();
             app.keyControllers = keyControllers = {};
+            keyboardScroller = $('#keyboardScroller')[0];
             keyboardNode$ = $('#keyboard');
             keyboardNode = keyboardNode$[0];
             keyboardNode$.width(layout.width + 'mm').height(layout.height + 'mm');
@@ -96,6 +98,9 @@ module.define('app', function (require, exports) {
             var self = this;
             document.body.addEventListener('mousemove', function (event) { self.onKeyboardMouseMove(event); }, false);
             keyboardNode.addEventListener('mouseout', function (event) { self.onKeyboardMouseOut(event); }, false);
+            keyboardScroller.addEventListener('scroll', function (event) {
+                self.keyContainingMouseDidChange();
+            });
             keyboardToolTipNode$ = $('#keyboardToolTip');
             keyboardToolTipNode = keyboardToolTipNode$[0];
             observePath(this, 'keyContainingMouse.model', this.keyContainingMouseDidChange, this);
@@ -137,7 +142,7 @@ module.define('app', function (require, exports) {
                 this.keyboardToolTipKeyModel = this.keyContainingMouse.model;
                 keyboardToolTipNode$.addClass('keyboardToolTipVisible') .removeClass('keyboardToolTipHidden');
                 var point = [
-                    this.keyContainingMouse.anchor[0] - 21,
+                    this.keyContainingMouse.anchor[0] - 21 - keyboardScroller.scrollLeft,
                     this.keyContainingMouse.anchor[1] ];
                 style.webkitTransform = style.MozTransform = style.transform = u.format('translate({0}px,{1}px)', point);
             }

@@ -14,8 +14,17 @@ BODY {
     font: 14px/18px Verdana, sans-serif;
 }
 
+#keyboardScroller {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    overflow-x: auto;
+}
+
 #keyboardFrame {
     width: intrinsic;
+    width: -moz-max-content;
     background-color: #ccc;
     -moz-border-radius: 12px;
     -webkit-border-radius: 12px;

@@ -143,10 +143,9 @@ module.define('framework/utilities', function (require, exports) {
         if (window.pageXOffset > 0 || window.pageYOffset > 0) {
             // Try to get the element using the page coordinate of the lower-right pixel of the window.  If it returns null, document.elementFromPoint wants viewport coordinates (clientX/clientY).
             var e = document.elementFromPoint(window.pageXOffset + window.innerWidth - 1, window.pageYOffset + window.innerHeight - 1);
-            exports.elementFromPoint = (e === null) ? document.elementFromPoint
-                : function (x, y) {
-                    return document.elementFromPoint(x + window.pageXOffset, y + window.pageYOffset);
-                };
+            exports.elementFromPoint = (e === null)
+                ? function (x, y) { return document.elementFromPoint(x, y) }
+                : function (x, y) { return document.elementFromPoint(x + window.pageXOffset, y + window.pageYOffset); };
             return exports.elementFromPoint(x, y);
         } else {
             // Document isn't scrolled.  Page and viewport coordinates are the same.

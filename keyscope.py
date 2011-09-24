@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+port=8000
+
 from twisted.internet import reactor, protocol
 from twisted.web import server, static
 from twisted.web.resource import Resource
@@ -58,9 +60,9 @@ sniffer = SnifferProtocol(eventSource.send)
 reactor.spawnProcess(sniffer, './sniffer', ['./sniffer'])
 root.putChild('events', eventSource)
 factory = server.Site(root)
-reactor.listenTCP(interface='127.0.0.1', port=8000, factory=factory)
+reactor.listenTCP(interface='127.0.0.1', port=port, factory=factory)
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 signal.signal(signal.SIGTERM, signal.SIG_DFL)
-print 'listening at http://localhost:8000/'
+print 'listening at http://localhost:%d/' % (port)
 reactor.run()
 

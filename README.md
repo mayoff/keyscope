@@ -10,7 +10,7 @@
 
 2.  If you get a popup window telling you that System Events is trying to unlock Universal Access preferences, enter your password. This turns on the "Enable access for assistive devices" option in the Universal Access pane of your System Preferences. It must be enabled for KeyScope to sniff your keyboard. You won't get this popup window if that option is already enabled.
 
-3.  When `keyscope.py' is ready, it'll print the URL it is listening on. It's normally [`http://localhost:8000/`](http://localhost:8000/). Go to that URL in Chrome or Safari or Firefox.
+3.  When `keyscope.py` is ready, it'll print the URL it is listening on. It's normally [`http://localhost:8000/`](http://localhost:8000/). Go to that URL in Chrome or Safari or Firefox.
 
 4.  Do normal activities. KeyScope track your key presses even when you're using other windows and other applications (as long as you leave KeyScope loaded in your browser). You can type in the KeyScope browser window to see what happens, but it's really designed to monitor key and finger use during your normal computer usage. In some browsers, pressing `esc` in the KeyScope browser window will kill its live connection to the sniffer. Just reload if that happens.
 

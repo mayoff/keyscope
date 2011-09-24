@@ -111,6 +111,8 @@ module.define('keyController', function (require, exports) {
     };
 
     KeyController.prototype.setLabel = function (newLabel) {
+        if (newLabel[0] !== '<')
+            newLabel = '<div>' + newLabel + '</div>';
         if (newLabel === this['label' + this.sideShown])
             return;
         if (!this['label' + this.sideShown] || !kTransitionDelayKey) {

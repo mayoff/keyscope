@@ -52,7 +52,6 @@ BODY {
 
     font-size: 12px;
     line-height: 15px;
-    text-align: center;
 
     position: absolute;
     top: 0;
@@ -63,14 +62,6 @@ BODY {
     border-radius: 4px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
-
-    display: -moz-box;
-    -moz-box-align: center;
-    -moz-box-pack: center;
-
-    display: -webkit-box;
-    -webkit-box-align: center;
-    -webkit-box-pack: center;
 
     -webkit-transition-property: -webkit-transform;
     -moz-transition-property: -moz-transform;
@@ -113,48 +104,49 @@ BODY {
     font-size: 70%;
 }
 
-.keylabelFKey {
+.keylabel > DIV {
+    width: 100%;
+    height: 100%;
+
+    display: -moz-box;
+    -moz-box-align: center;
+    -moz-box-pack: center;
+
+    display: -webkit-box;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+}
+
+.keylabel > DIV.keylabelFKey {
     font-size: 70%;
     line-height: 100%;
-    width: 100%;
-    height: 100%;
     padding: 2px;
 
-    display: -moz-box;
     -moz-box-align: end;
     -moz-box-pack: end;
 
-    display: -webkit-box;
     -webkit-box-align: end;
     -webkit-box-pack: end;
 }
 
-.keylabelLR {
+.keylabel > DIV.keylabelLR {
     font-size: 80%;
-    width: 100%;
-    height: 100%;
     padding-right: 3px;
 
-    display: -moz-box;
     -moz-box-align: end;
     -moz-box-pack: end;
 
-    display: -webkit-box;
     -webkit-box-align: end;
     -webkit-box-pack: end;
 }
 
-.keylabelLL {
+.keylabel > DIV.keylabelLL {
     font-size: 80%;
-    width: 100%;
-    height: 100%;
     padding-left: 3px;
 
-    display: -moz-box;
     -moz-box-align: end;
     -moz-box-pack: start;
 
-    display: -webkit-box;
     -webkit-box-align: end;
     -webkit-box-pack: start;
 }

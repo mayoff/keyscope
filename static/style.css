@@ -226,37 +226,26 @@ BODY {
 }
 
 #fingers {
+    table-layout: fixed;
     position: relative;
     height: 300px;
     width: 100%;
     margin-top: .125in;
+}
 
-    display: -webkit-box;
-    -webkit-box-orient: horizontal;
-    -webkit-box-align: end;
-    -webkit-box-pack: justify;
+#fingers TD {
+    padding: 0;
+}
 
-    display: -moz-box;
-    -moz-box-orient: horizontal;
-    -moz-box-align: end;
-    -moz-box-pack: justify;
+.fingerSpacer {
+    width: 0.5%;
 }
 
 .finger {
+    vertical-align: bottom;
     width: 9%;
     height: 100%;
-    margin: 0 0.5%;
     border-bottom: 1px solid hsl(210, 100%, 88%);
-
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-box-pack: end;
-    -webkit-box-direction: reverse;
-
-    display: -moz-box;
-    -moz-box-orient: vertical;
-    -moz-box-pack: end;
-    -moz-box-direction: reverse;
 }
 
 .fingerKey {
@@ -265,7 +254,9 @@ BODY {
 
     width: 100%;
     background: -webkit-gradient(linear, left top, left bottom, from(hsl(210, 100%, 85%)), to(hsl(210, 100%, 100%)));
-    background: -webkit-gradient(linear, left top, left bottom, from(hsl(210, 100%, 85%)), to(hsl(210, 100%, 100%)));
+    background: -webkit-linear-gradient(top, hsl(210, 100%, 85%), hsl(210, 100%, 100%));
+    background: -moz-linear-gradient(top, hsl(210, 100%, 85%), hsl(210, 100%, 100%));
+    background: linear-gradient(top, hsl(210, 100%, 85%), hsl(210, 100%, 100%));
 }
 
 .fingerKeyLabel {

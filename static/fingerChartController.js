@@ -68,7 +68,7 @@ module.define('fingerChartController', function (require, exports) {
     FingerController.prototype.keyPressCountDidChange = function () {
         var keys = this.keys;
         keys.sort(function (a, b) {
-            return b.model.pressCount - a.model.pressCount;
+            return a.model.pressCount - b.model.pressCount;
         });
         var pc = 0, keyNodes = this.node.childNodes;
         this.keys.forEach(function (key, i) {

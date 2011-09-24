@@ -10,6 +10,10 @@
     -moz-box-sizing: border-box;
 }
 
+BODY {
+    font: 14px/18px Verdana, sans-serif;
+}
+
 #keyboardFrame {
     width: intrinsic;
     background-color: #ccc;
@@ -25,13 +29,31 @@
     box-sizing: content-box;
 }
 
-.key {
+.keyParent {
     position: absolute;
+
+    -webkit-perspective: 100;
+    -moz-perspective: 100;
+    perspective: 100;
+
+    cursor: default;
+}
+
+.keylabel {
+
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
     border-radius: 4px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
-
-    background-color: white;
 
     display: -moz-box;
     -moz-box-align: center;
@@ -41,8 +63,37 @@
     -webkit-box-align: center;
     -webkit-box-pack: center;
 
-    font: 12px/15px Verdana, sans-serif;
-    text-align: center;
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    transition-property: transform;
+
+    -webkit-transition-duration: 500ms;
+    -moz-transition-duration: 500ms;
+    transition-duration: 500ms;
+
+    -webkit-transition-timing-function: ease-in-out;
+    -moz-transition-timing-function: ease-in-out;
+    transition-timing-function: ease-in-out;
+
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+.keyParent.keylabelShowFront .keylabelFront {
+    -webkit-transform: none;
+    -moz-transform: none;
+    transform: none;
+}
+
+.keyParent.keylabelShowBack .keylabelBack {
+    -webkit-transform: rotateY(360deg);
+    -moz-transform: rotateY(360deg);
+    transform: rotateY(360deg);
 }
 
 .keylabelSmaller {
@@ -55,6 +106,7 @@
 
 .keylabelFKey {
     font-size: 70%;
+    line-height: 100%;
     width: 100%;
     height: 100%;
     padding: 2px;
@@ -98,16 +150,78 @@
     -webkit-box-pack: start;
 }
 
-.keyup {
+.keyup .keylabel {
     -webkit-box-shadow: 0px 1px 1px #777;
     -moz-box-shadow: 0px 1px 1px #777;
     box-shadow: 0px 1px 1px #777;
 }
 
-.key.keydown {
+.keydown .keylabel {
     -webkit-box-shadow: inset 0px 1px 1px #444;
     -moz-box-shadow: inset 0px 1px 1px #444;
     box-shadow: inset 0px 1px 1px #444;
+}
+
+#keyboardToolTip {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 20;
+    -webkit-transform: translate(223px, 230px);
+    -moz-transform: translate(223px, 230px);
+    transform: translate(223px, 230px);
+
+    transition: transform 150ms ease-out 0ms, opacity 150ms ease-in 150ms;
+    -webkit-transition: -webkit-transform 150ms ease-out 0ms, opacity 150ms ease-in 150ms;
+    -moz-transition: -moz-transform 150ms ease-out 0ms, opacity 150ms ease-in 150ms;
+}
+
+#keyboardToolTip.keyboardToolTipHidden {
+    opacity: 0;
+}
+
+#keyboardToolTip.keyboardToolTipVisible {
+    transition: transform 150ms ease-out 0ms, opacity 150ms ease-in 0ms;
+    -webkit-transition: -webkit-transform 150ms ease-out 0ms, opacity 150ms ease-in 0ms;
+    -moz-transition: -moz-transform 150ms ease-out 0ms, opacity 150ms ease-in 0ms;
+
+    opacity: 1;
+}
+
+#keyboardToolTipPointer {
+    position: relative;
+    left: 10px;
+    top: 1px;
+    width: 0;
+    height: 0;
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    border-bottom: 11px solid hsl(60, 80%, 60%);
+}
+
+#keyboardToolTipPointerInner {
+    position: relative;
+    left: -10px;
+    top: 1px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid hsl(60, 100%, 90%);
+}
+
+#keyboardToolTipText {
+    width: intrinsic;
+    min-width: 175px;
+    height: intrinsic;
+    background-color: hsl(60, 100%, 90%);
+    border: 1px solid hsl(60, 80%, 60%);
+    border-radius: 7px 7px 7px 7px;
+    padding: .5em;
+
+    -webkit-box-shadow: 0px 2px 2px rgba(0,0,0,.4);
+    -moz-box-shadow: 0px 2px 2px rgba(0,0,0,.4);
+    box-shadow: 0px 2px 2px rgba(0,0,0,.4);
 }
 
 #fingers {
@@ -120,6 +234,11 @@
     -webkit-box-orient: horizontal;
     -webkit-box-align: end;
     -webkit-box-pack: justify;
+
+    display: -moz-box;
+    -moz-box-orient: horizontal;
+    -moz-box-align: end;
+    -moz-box-pack: justify;
 }
 
 .finger {
@@ -132,11 +251,16 @@
     -webkit-box-orient: vertical;
     -webkit-box-pack: end;
     -webkit-box-direction: reverse;
+
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-pack: end;
+    -moz-box-direction: reverse;
 }
 
 .fingerKey {
     position: relative;
-    font: 9px Arial;
+    font-size: 9px;
 
     width: 100%;
     background: -webkit-gradient(linear, left top, left bottom, from(hsl(210, 100%, 85%)), to(hsl(210, 100%, 100%)));
@@ -156,7 +280,7 @@
     background: hsl(60, 100%, 90%);
     border: 1px solid hsl(60, 80%, 70%);
     padding: .5em;
-    font: 14px Arial;
+    font-size: 14px;
     z-index: 2;
 }
 

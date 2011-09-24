@@ -1,18 +1,31 @@
 
 
-module.define('keyboards/maker', function (require, exports) {
+module.define('keyboards', function (require, exports) {
+
+    var keyboards = {
+        'apple-us-with-keypad': require('keyboards/apple-us-with-keypad')
+    };
 
     var labelSets = {}; // Fully initialized later.
+    var u = require('framework/utilities');
 
-    function KeyboardMaker(props) {
-        props = props || {};
-        this.scale = props.scale || 0.7;
+    exports.keyboardIds = u.keys(keyboards);
+
+    exports.humanNameForKeyboardId = function (id) {
+        return keyboards[id].humanName;
+    };
+
+    exports.keyboardForId = function (id) {
+        if (!keyboards[id].keyboard)
+            keyboards[id].keyboard = keyboards[id].makeKeyboard();
+        return keyboards[id].keyboard;
+    };
+
+    function KeyboardMaker() {
+        this.scale = 0.7;
         this.x = 0;
         this.y = 0;
         this._keys = [];
-	this._fingerForKey = {};
-	this._keysForFinger = {};
-        this.labels = labelSets[props.labels || 'qwerty'].labels;
     };
 
     exports.KeyboardMaker = KeyboardMaker;
@@ -30,9 +43,7 @@ module.define('keyboards/maker', function (require, exports) {
         return {
             width: w,
             height: h,
-            keys: this._keys,
-	    keysForFinger: this._keysForFinger,
-	    fingerForKey: this._fingerForKey
+            keys: this._keys
         };
     };
 
@@ -62,8 +73,7 @@ module.define('keyboards/maker', function (require, exports) {
             y: this.y,
             width: props.width || kKeyWidth,
             height: props.height || kKeyHeight,
-            name: name,
-            label: props.label || this.labels[name] || name
+            name: name
         };
         this._keys.push(keyDefinition);
         this.x += keyDefinition.width;
@@ -99,14 +109,20 @@ module.define('keyboards/maker', function (require, exports) {
     };
 
     KeyboardMaker.prototype.fingers = function (keysForFinger) {
+        var fingerForKey = {};
 	for (var finger in keysForFinger) {
-	    var keys = keysForFinger[finger].split(' ');
-	    this._keysForFinger[finger] = keys;
-	    keys.forEach(function (key) {
-		this._fingerForKey[key] = finger;
+	    keysForFinger[finger].split(' ').forEach(function (key) {
+	        fingerForKey[key] = finger;
 	    }, this);
 	}
+	this._keys.forEach(function (key) {
+	    if (key.name in fingerForKey)
+	        key.finger = fingerForKey[key.name];
+	});
     };
+
+    ////////////////////////////////////////////////////////////////
+    // Keyboard layouts
 
     function s(s) {
         return '<div class="keylabelSmaller">' + s + '</div>';
@@ -218,6 +234,8 @@ module.define('keyboards/maker', function (require, exports) {
     labelSets.dvorak = {
 	humanName: 'Dvorak',
 	labels: $.extend({}, labelSets.qwerty.labels, {
+	    Minus: p('{['),
+	    Equal: p('}]'),
 	    Q: p('"\''),
 	    W: p('<,'),
 	    E: p('>.'),
@@ -249,14 +267,19 @@ module.define('keyboards/maker', function (require, exports) {
 	    N: 'B',
 	    M: 'M',
 	    Comma: 'W',
-	    Period: 'Z'
+	    Period: 'V',
+	    Slash: 'Z'
 	})
     };
 
-    exports.labelSetIds = require('utilities').keys(labelSets);
+    exports.labelSetIds = u.keys(labelSets);
 
     exports.humanNameForLabelSetId = function (id) {
 	return labelSets[id].humanName;
+    };
+
+    exports.labelSetForId = function (id) {
+        return labelSets[id].labels;
     };
 
 });

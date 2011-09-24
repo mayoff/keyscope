@@ -2,17 +2,20 @@
 <meta charset=utf-8>
 <title>KeyScope</title>
 <link rel='stylesheet' href='style.css'>
-<script src='jquery-1.6.4.min.js'></script>
-<script src='module.js'></script>
-<script src='utilities.js'></script>
-<script src='keyboards/apple.js'></script>
-<script src='keyboards/maker.js'></script>
-<script src='main.js'></script>
 </head><body>
-<form id='controls'>
-<button id='resetButton'>Reset Keypress Counts</button>
-<select id='labelSetSelect'></select>
-</form>
+<div id='controls'>
+<button data-bind-event='model.resetKeyPressCounts'>Reset Keypress Counts</button>
+<select id='keyboardSelect' data-bind-value='model.layoutId'></select>
+<select id='labelSetSelect' data-bind-value='model.labelSetId'></select>
+</div>
+<div id='keyboardToolTip' class='keyboardToolTipHidden'>
+    <div id='keyboardToolTipPointer'><div id='keyboardToolTipPointerInner'></div></div>
+    <div id='keyboardToolTipText'>
+        Name: <span data-bind-innerhtml='keyboardToolTipKeyModel.name'></span><br>
+        Times pressed: <span data-bind-innerhtml='keyboardToolTipKeyModel.pressCount'></span><br>
+        Rank: <span data-bind-innerhtml='keyboardToolTipKeyModel.rank'></span>/<span data-bind-innerhtml='model.maxRank'></span>
+    </div>
+</div>
 <div id='keyboardFrame'><div id='keyboard'></div></div>
 <div id='fingers'
     ><div id='finger_L5' class='finger'></div
@@ -26,5 +29,19 @@
     ><div id='finger_R4' class='finger'></div
     ><div id='finger_R5' class='finger'></div
 ></div>
+<script src='jquery-1.6.4.min.js'></script>
+<script src='framework/module.js'></script>
+<script src='framework/utilities.js'></script>
+<script src='framework/observe.js'></script>
+<script src='framework/bind.js'></script>
+<script src='framework/domBinder.js'></script>
+<script src='framework/cssTransition.js'></script>
+<script src='model.js'></script>
+<script src='keyboards.js'></script>
+<script src='keyboards/apple-us-with-keypad.js'></script>
+<script src='keyController.js'></script>
+<script src='fingerChartController.js'></script>
+<script src='sniffer.js'></script>
+<script src='app.js'></script>
 </body></html>
 

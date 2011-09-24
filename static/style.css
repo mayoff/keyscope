@@ -35,6 +35,8 @@ BODY {
     -webkit-perspective: 100;
     -moz-perspective: 100;
     perspective: 100;
+
+    cursor: default;
 }
 
 .keylabel {
@@ -168,17 +170,21 @@ BODY {
     -webkit-transform: translate(223px, 230px);
     -moz-transform: translate(223px, 230px);
     transform: translate(223px, 230px);
+
+    transition: transform 150ms ease-out 0ms, opacity 150ms ease-in 150ms;
+    -webkit-transition: -webkit-transform 150ms ease-out 0ms, opacity 150ms ease-in 150ms;
+    -moz-transition: -moz-transform 150ms ease-out 0ms, opacity 150ms ease-in 150ms;
 }
 
-.keyboardToolTipHidden {
-    visibility: hidden;
+#keyboardToolTip.keyboardToolTipHidden {
     opacity: 0;
 }
 
-.keyboardToolTipVisible {
-    transition: transform 150ms ease 0ms, opacity 150ms ease-in 0ms;
-    -webkit-transition: -webkit-transform 150ms ease 0ms, opacity 150ms ease-in 0ms;
-    -moz-transition: -moz-transform 150ms ease 0ms, opacity 150ms ease-in 0ms;
+#keyboardToolTip.keyboardToolTipVisible {
+    transition: transform 150ms ease-out 0ms, opacity 150ms ease-in 0ms;
+    -webkit-transition: -webkit-transform 150ms ease-out 0ms, opacity 150ms ease-in 0ms;
+    -moz-transition: -moz-transform 150ms ease-out 0ms, opacity 150ms ease-in 0ms;
+
     opacity: 1;
 }
 

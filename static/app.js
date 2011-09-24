@@ -94,36 +94,43 @@ module.define('app', function (require, exports) {
 
         initKeyboardToolTip: function () {
             var self = this;
-            keyboardNode$.mouseleave(function (event) {
-                self.keyContainingMouse.model = null;
-            }).mousemove(function (event) {
-                self.mouseDidMoveOverKeyboard(event);
-            });
+            document.body.addEventListener('mousemove', function (event) { self.onKeyboardMouseMove(event); }, false);
+            keyboardNode.addEventListener('mouseout', function (event) { self.onKeyboardMouseOut(event); }, false);
             keyboardToolTipNode$ = $('#keyboardToolTip');
             keyboardToolTipNode = keyboardToolTipNode$[0];
             observePath(this, 'keyContainingMouse.model', this.keyContainingMouseDidChange, this);
         },
 
-        mouseDidMoveOverKeyboard: function (event) {
-            var element = u.elementFromPoint(event.clientX, event.clientY);
+        keyControllerForClientPoint: function (x, y) {
+            var element = u.elementFromPoint(x, y);
+            var kc = null;
             while (element && element !== keyboardNode) {
                 if (element.keyController) {
-                    element.keyController.mouseDidMoveInside();
-                    return;
+                    kc = element.keyController;
+                    break;
                 }
                 if (element === keyboardToolTipNode) {
                     keyboardToolTipNode.style.visibility = 'hidden';
-                    element = u.elementFromPoint(event.clientX, event.clientY);
+                    element = u.elementFromPoint(x, y);
                     keyboardToolTipNode.style.visibility = 'visible';
-                } else {
+                } else
                     element = element.parentNode;
-                }
             }
-            this.keyContainingMouse.model = null;
+            return kc;
+        },
+
+        onKeyboardMouseMove: function (event) {
+            var kc = this.keyControllerForClientPoint(event.clientX, event.clientY);
+            if (kc) kc.mouseDidMoveInside();
+            else this.keyContainingMouse.model = null;
+        },
+
+        onKeyboardMouseOut: function (event) {
+            this.onKeyboardMouseMove(event);
         },
 
         keyContainingMouseDidChange: function () {
-            var style = keyboardToolTipNode$[0].style;
+            var style = keyboardToolTipNode.style;
             if (this.keyContainingMouse.model === null) {
                 keyboardToolTipNode$.removeClass('keyboardToolTipVisible') .addClass('keyboardToolTipHidden');
             } else {

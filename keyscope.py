@@ -61,6 +61,6 @@ factory = server.Site(root)
 reactor.listenTCP(interface='127.0.0.1', port=8000, factory=factory)
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 signal.signal(signal.SIGTERM, signal.SIG_DFL)
-print 'starting...'
+print 'listening at http://localhost:8000/'
 reactor.run()
 

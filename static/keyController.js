@@ -55,6 +55,7 @@ module.define('keyController', function (require, exports) {
         this.sideShown = 'Front';
 
         var node = this.node = document.createElement('div');
+        node.keyController = this;
         this.node$ = $(node);
         node.className = 'keyParent keyup';
         var style = node.style;
@@ -74,8 +75,6 @@ module.define('keyController', function (require, exports) {
         } else {
             this['keylabel' + this.sideHidden].style.display = 'none';
         }
-        node.addEventListener('mouseover', function (e) { self.onMouseOver(e); }, false);
-        node.addEventListener('mouseout', function (e) { self.onMouseOut(e); }, false);
         domBinder.bind(node, this);
         parentNode.appendChild(node);
         parentNode.offsetHeight; // Force layout so the transition happens
@@ -100,24 +99,22 @@ module.define('keyController', function (require, exports) {
         this.isDestroyed = true;
     };
 
-    KeyController.prototype.onMouseOver = function (event) {
-        /* XXX This needs to be rewritten to receive mousemove events on keyboardFrame and check for a key with document.elementFromPoint. If keyboardToolTip  contains the mouse, hide keyboardToolTip and call document.elementFromPoint again, then reshow keyboardToolTip.
-        */
-        var cr = this.node.getBoundingClientRect();
-        var body = document.body;
-        var w = cr.right - cr.left;
-        var x = Math.round(body.scrollLeft + cr.left + w / 2);
-        var y = body.scrollTop + cr.bottom;
-        this.app.keyContainingMouse = {
-            model: this.key,
-            anchor: [ x, y ]
-        };
+    KeyController.prototype.mouseDidMoveInside = function () {
+        var kcm = this.app.keyContainingMouse;
+        if (kcm.model !== this.key) {
+            kcm.anchor = this.toolTipAnchor();
+            kcm.model = this.key;
+        }
     };
 
-    KeyController.prototype.onMouseOut = function (event) {
-        if (this.app.keyContainingMouse && this.app.keyContainingMouse.model === this.key) {
-            this.app.keyContainingMouse.model = null;
-        }
+    KeyController.prototype.toolTipAnchor = function () {
+        if (this._toolTipAnchor)
+            return this._toolTipAnchor;
+        var cr = this.node.getBoundingClientRect();
+        var w = cr.right - cr.left;
+        var x = Math.round(window.pageXOffset + cr.left + w / 2);
+        var y = window.pageYOffset + cr.bottom;
+        return this._toolTipAnchor = [ x, y ];
     };
 
     KeyController.prototype.setLabel = function (newLabel) {

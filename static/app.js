@@ -2,19 +2,23 @@
 
 module.define('app', function (require, exports) {
 
-    var format = require('framework/utilities').format;
+    var u = require('framework/utilities');
     var observePath = require('framework/observe').observePath;
     var keyboards = require('keyboards');
     var keyController = require('keyController');
     var sniffer = require('sniffer');
     var cssTransition = require('framework/cssTransition');
-    var keyboardToolTipNode$;
+    var keyboardNode$, keyboardNode;
+    var keyboardToolTipNode, keyboardToolTipNode$;
 
     var app = {
         model: null,
         keyControllers: {},
         fingerChartController: null,
-        keyContainingMouse: null,
+        keyContainingMouse: {
+            model: null,
+            anchor: [ 0, 0 ]
+        },
         keyboardToolTipKeyModel: null,
 
         init: function () {
@@ -34,7 +38,7 @@ module.define('app', function (require, exports) {
         initLayoutSelectElement: function () {
             var html = '';
             keyboards.keyboardIds.forEach(function (id) {
-                html += format('<option value="{id}">{name}</option>', {
+                html += u.format('<option value="{id}">{name}</option>', {
                     id: id,
                     name: keyboards.humanNameForKeyboardId(id)
                 });
@@ -46,7 +50,7 @@ module.define('app', function (require, exports) {
         initLabelSetSelectElement: function () {
             var html = '';
             keyboards.labelSetIds.forEach(function (id) {
-                html += format('<option value="{id}">{name}</option>', {
+                html += u.format('<option value="{id}">{name}</option>', {
                     id: id,
                     name: keyboards.humanNameForLabelSetId(id)
                 });
@@ -66,8 +70,9 @@ module.define('app', function (require, exports) {
             for (var name in keyControllers)
                 keyControllers[name].destroy();
             app.keyControllers = keyControllers = {};
-            var keyboard$ = $('#keyboard'), keyboardNode = keyboard$[0];
-            keyboard$.width(layout.width + 'mm').height(layout.height + 'mm');
+            keyboardNode$ = $('#keyboard');
+            keyboardNode = keyboardNode$[0];
+            keyboardNode$.width(layout.width + 'mm').height(layout.height + 'mm');
             layout.keys.forEach(function (keyDescription) {
                 this.fingerChartController.addKey(keyDescription, this.model.keyForName(keyDescription.name));
                 keyControllers[keyDescription.name] = keyController.make({
@@ -88,12 +93,36 @@ module.define('app', function (require, exports) {
         },
 
         initKeyboardToolTip: function () {
+            var self = this;
+            keyboardNode$.mouseleave(function (event) {
+                self.keyContainingMouse.model = null;
+            }).mousemove(function (event) {
+                self.mouseDidMoveOverKeyboard(event);
+            });
             keyboardToolTipNode$ = $('#keyboardToolTip');
+            keyboardToolTipNode = keyboardToolTipNode$[0];
             observePath(this, 'keyContainingMouse.model', this.keyContainingMouseDidChange, this);
         },
 
+        mouseDidMoveOverKeyboard: function (event) {
+            var element = u.elementFromPoint(event.clientX, event.clientY);
+            while (element && element !== keyboardNode) {
+                if (element.keyController) {
+                    element.keyController.mouseDidMoveInside();
+                    return;
+                }
+                if (element === keyboardToolTipNode) {
+                    keyboardToolTipNode.style.visibility = 'hidden';
+                    element = u.elementFromPoint(event.clientX, event.clientY);
+                    keyboardToolTipNode.style.visibility = 'visible';
+                } else {
+                    element = element.parentNode;
+                }
+            }
+            this.keyContainingMouse.model = null;
+        },
+
         keyContainingMouseDidChange: function () {
-            console.log('keyContainingMouse', this.keyContainingMouse && this.keyContainingMouse.model && this.keyContainingMouse.model.name);
             var style = keyboardToolTipNode$[0].style;
             if (this.keyContainingMouse.model === null) {
                 keyboardToolTipNode$.removeClass('keyboardToolTipVisible') .addClass('keyboardToolTipHidden');
@@ -103,7 +132,7 @@ module.define('app', function (require, exports) {
                 var point = [
                     this.keyContainingMouse.anchor[0] - 21,
                     this.keyContainingMouse.anchor[1] ];
-                style.webkitTransform = style.MozTransform = style.transform = format('translate({0}px,{1}px)', point);
+                style.webkitTransform = style.MozTransform = style.transform = u.format('translate({0}px,{1}px)', point);
             }
         },
 

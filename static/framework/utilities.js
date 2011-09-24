@@ -130,5 +130,29 @@ module.define('framework/utilities', function (require, exports) {
         }
     };
 
+    /**
+    ### elementFromPoint
+
+    > `elementFromPoint(clientX, clientY)` &rarr; `aDomElement`
+
+    I wrap `document.elementFromPoint`, but I always take viewport coordinates even if the browser's implementation of `document.elementFromPoint` takes page coordinates.
+    */
+
+    exports.elementFromPoint = function (x, y) {
+        // I'd like to figure out which coordinates I need to pass to document.elementfromPoint, but I can only do that if the document is scrolled.
+        if (window.pageXOffset > 0 || window.pageYOffset > 0) {
+            // Try to get the element using the page coordinate of the lower-right pixel of the window.  If it returns null, document.elementFromPoint wants viewport coordinates (clientX/clientY).
+            var e = document.elementFromPoint(window.pageXOffset + window.innerWidth - 1, window.pageYOffset + window.innerHeight - 1);
+            exports.elementFromPoint = (e === null) ? document.elementFromPoint
+                : function (x, y) {
+                    return document.elementFromPoint(x + window.pageXOffset, y + window.pageYOffset);
+                };
+            return exports.elementFromPoint(x, y);
+        } else {
+            // Document isn't scrolled.  Page and viewport coordinates are the same.
+            return document.elementFromPoint(x, y);
+        }
+    };
+
 });
 
